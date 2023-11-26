@@ -32,4 +32,10 @@ public class Manager extends Employee implements EmployeeAction {
         Company.addQuizMaster(name);
         return newquizMaster;
     }
+
+    public Employee addEmployee (String name, EmployeeType type) {
+        Employee newEmployee = new Employee(name, type);
+        Company.addEmployee(name, type);
+        return newEmployee;
+    }
 }

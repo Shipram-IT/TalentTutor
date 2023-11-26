@@ -2,25 +2,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Company {
-    private List<Employee> employeeList = new ArrayList<>();
+    private static List<Employee> employeeList = new ArrayList<>();
     private static List<QuizMaster> quizMasterList = new ArrayList<>();
 
     private List<Manager> managerList = new ArrayList<>();
 
     private List<RegularEmployee> regularEmployeesList = new ArrayList<>();
 
-    public void addEmployee(String name, EmployeeType type) {
-        Employee newEmployee = new Employee(name,type);
-        employeeList.add(newEmployee);
-    }
+
     public void addQuizMaster(QuizMaster quizMaster) {
         quizMasterList.add(quizMaster);
     }
 
-    public static void addQuizMaster(String name) {
-        QuizMaster newQuizMaster = new QuizMaster(name);
-        quizMasterList.add(newQuizMaster);
-    }
 
     public void addManger (String name) {
         Manager newManager = new Manager(name);
@@ -30,6 +23,17 @@ public class Company {
     public void addRegularEmployee (String name, Department department) {
         RegularEmployee newregularEmployee = new RegularEmployee(name, department);
         regularEmployeesList.add(newregularEmployee);
+    }
+
+    public static void addQuizMaster(String name) {
+        QuizMaster newQuizMaster = new QuizMaster(name);
+        quizMasterList.add(newQuizMaster);
+    }
+
+    public static void addEmployee(String name, EmployeeType type) {
+        Employee newEmployee = new Employee(name,type);
+        employeeList.add(newEmployee);
+
     }
 
     public void printEmploeeDetails() {
