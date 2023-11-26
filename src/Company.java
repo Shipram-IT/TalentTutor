@@ -7,6 +7,8 @@ public class Company {
 
     private List<Manager> managerList = new ArrayList<>();
 
+    private List<RegularEmployee> regularEmployeesList = new ArrayList<>();
+
     public void addEmployee(String name, EmployeeType type) {
         Employee newEmployee = new Employee(name,type);
         employeeList.add(newEmployee);
@@ -22,6 +24,11 @@ public class Company {
         managerList.add(newManager);
     }
 
+    public void addRegularEmployee (String name, Department department) {
+        RegularEmployee newregularEmployee = new RegularEmployee(name, department);
+        regularEmployeesList.add(newregularEmployee);
+    }
+
     public void printEmploeeDetails() {
         System.out.println("Employees: ");
         for (Employee employee : employeeList) {
@@ -35,7 +42,11 @@ public class Company {
         }
 
         for (Manager manager: managerList) {
-            System.out.println();
+            System.out.println("Manager Details: " + manager.getName() + " " + manager.getType());
+        }
+
+        for (RegularEmployee regularEmployee: regularEmployeesList) {
+            System.out.println("Regular Employee details: " + regularEmployee.getName() + " " + regularEmployee.getDepartment());
         }
     }
 
