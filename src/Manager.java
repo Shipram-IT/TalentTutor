@@ -23,4 +23,13 @@ public class Manager extends Employee implements EmployeeAction {
         // Custom logic for managers to view quiz status
         // ...
     }
+
+    /**
+     * Manager adds a Quiz Master
+     */
+    public QuizMaster addQuizMaster(String name) {
+        QuizMaster newquizMaster = new QuizMaster(name);
+        Company.addQuizMaster(name);
+        return newquizMaster;
+    }
 }

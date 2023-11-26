@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Company {
     private List<Employee> employeeList = new ArrayList<>();
-    private List<QuizMaster> quizMasterList = new ArrayList<>();
+    private static List<QuizMaster> quizMasterList = new ArrayList<>();
 
     private List<Manager> managerList = new ArrayList<>();
 
@@ -13,8 +13,11 @@ public class Company {
         Employee newEmployee = new Employee(name,type);
         employeeList.add(newEmployee);
     }
+    public void addQuizMaster(QuizMaster quizMaster) {
+        quizMasterList.add(quizMaster);
+    }
 
-    public void addQuizMaster(String name) {
+    public static void addQuizMaster(String name) {
         QuizMaster newQuizMaster = new QuizMaster(name);
         quizMasterList.add(newQuizMaster);
     }
