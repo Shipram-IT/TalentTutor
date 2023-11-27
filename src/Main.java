@@ -1,17 +1,56 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        //initialize program
+        Company myCompany;
+        try {
+            myCompany = new Company();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+        //testing set a manager
+        Manager m1 = new Manager("Johnny The Tester");
+        myCompany.addEmployee(m1);
+
+        //testing employee hiring
+        Employee e1 = new QuizMaster("Jerry the QuizMaster");
+        m1.hireEmployee(myCompany, e1);
+
+        //show employees in list
+        for (Employee e : myCompany.getEmployees()) {
+            System.out.println(e.getName() + " " + e.getType());} //shows like this while toString() not implemented
+
+        //Testing employee removal
+        ArrayList<Employee> employeesList = myCompany.getEmployees();
+
+        for (int i = 0; i < employeesList.size(); i++) {
+            System.out.printf("[%d] - %s - %s\n", i, employeesList.get(i).getName(), employeesList.get(i).getType());
+        }
+        System.out.println("Select employee to remove: ");
+        Scanner keyboard = new Scanner(System.in);
+        int index = keyboard.nextInt();
+        if (0 < index && index < myCompany.getEmployees().size()){
+            m1.deleteEmployee(myCompany, index);
+        } else{
+            System.out.println("Out of index");
+        }
+
+        employeesList = myCompany.getEmployees();
+        for (int i = 0; i < employeesList.size(); i++) {
+            System.out.printf("[%d] - %s - %s\n", i, employeesList.get(i).getName(), employeesList.get(i).getType());
         }
     }
+
+
+
+
 }
