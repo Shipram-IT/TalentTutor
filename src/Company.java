@@ -13,6 +13,7 @@ public class Company {
             System.out.print("Your company needs a manager. Please insert his name: ");
             String name = new Scanner(System.in).nextLine();
             Manager firstManager = new Manager(name);
+            employeeList = new ArrayList<Employee>();
             this.employeeList.add(firstManager); //add to collection
             writeEmployeeList(employeeList); //calls the method to create a csv from scratch
         } else{
