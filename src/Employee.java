@@ -44,4 +44,8 @@ public class Employee implements EmployeeAction {
         // Logic to view quiz status
         // ...
     }
+
+    public String toCsv(){
+        return name+";"+type+";";
+    }
 }

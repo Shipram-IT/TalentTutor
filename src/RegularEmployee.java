@@ -34,4 +34,7 @@ public class RegularEmployee extends Employee implements EmployeeAction {
     public Department getDepartment() {
         return department;
     }
+    public String toCsv(){
+        return super.toCsv()+department;
+    }
 }
