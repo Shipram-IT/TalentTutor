@@ -44,7 +44,7 @@ public class Company {
      * @return a list of employees that is stored in the instance of Company
      */
     public ArrayList<Employee> getEmployees() {
-        return employeeList;
+        return (ArrayList<Employee>) employeeList.clone(); //Cloning to not grant access to the internal collection
     }
 
     /**
