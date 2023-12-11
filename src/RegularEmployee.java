@@ -1,3 +1,5 @@
+import enums.Department;
+
 import java.util.List;
 
 // Class for RegularEmployee
