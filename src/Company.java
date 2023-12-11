@@ -21,6 +21,21 @@ public class Company {
         }
     }
 
+    /**
+     * Check with id if comany contains the employee
+     * @param id
+     * @param employeeType
+     * @return
+     */
+    public boolean containsEmployee(int id, Class<? extends Employee> employeeType) {
+        for (Employee employee : employeeList) {
+            if (employeeType.isInstance(employee) && employee.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //Methods
     /**
      * this method adds employees to the collection and saves it into the csv file.
