@@ -1,19 +1,25 @@
-// Abstract class for representing a Question
+package classes.Question;
+
+import enums.Department;
+
+// Abstract class for representing a classes.Question.Question
 public abstract class Question {
+    private final String topic;
     private final String questionBody;
     private final String answer;
     private final int difficultyLevel;
     private final Department department;
 
     /**
-     * Constructor for Question.
+     * Constructor for classes.Question.Question.
      *
      * @param questionBody    The body of the question.
      * @param answer          The answer to the question.
      * @param difficultyLevel The difficulty level of the question.
      * @param department      The department associated with the question.
      */
-    public Question(String questionBody, String answer, int difficultyLevel, Department department) {
+    public Question(String topic, String questionBody, String answer, int difficultyLevel, Department department) {
+        this.topic = topic;
         this.questionBody = questionBody;
         this.answer = answer;
         this.difficultyLevel = difficultyLevel;
