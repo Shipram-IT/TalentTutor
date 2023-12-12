@@ -35,6 +35,10 @@ public class Employee implements EmployeeAction {
     public EmployeeType getType() {
         return type;
     }
+    public int getId(){
+        //return employee id that is fetched from the excel sheet and stored in program
+        return 0;
+    }
 
     /**
      * Implementation of viewQuizStatus from EmployeeAction interface
@@ -43,5 +47,9 @@ public class Employee implements EmployeeAction {
     public void viewQuizStatus(List<Employee> employees) {
         // Logic to view quiz status
         // ...
+    }
+
+    public String toCsv(){
+        return name+";"+type+";";
     }
 }

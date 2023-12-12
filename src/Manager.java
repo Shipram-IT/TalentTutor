@@ -23,4 +23,19 @@ public class Manager extends Employee implements EmployeeAction {
         // Custom logic for managers to view quiz status
         // ...
     }
+
+    /**
+     * Manager employee into Company
+     */
+    public void hireEmployee(Company company, Employee employee) {
+        company.addEmployee(employee);
+    }
+
+    public void deleteEmployee(Company company, Employee employee){
+        company.removeEmployee(employee);
+    }
+
+    public void deleteEmployee(Company company, int employeeIndex){
+        company.removeEmployee(company.getEmployees().get(employeeIndex));
+    }
 }
