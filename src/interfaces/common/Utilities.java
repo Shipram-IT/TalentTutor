@@ -1,8 +1,8 @@
-package interfaces.utilities;
+package interfaces.common;
 
 import enums.Department;
 
-public interface Common {
+public interface Utilities {
     /**
      * Takes department as String and returns respective Department enum
      * @param dept Department String

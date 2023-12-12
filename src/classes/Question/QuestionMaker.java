@@ -1,7 +1,7 @@
 package classes.Question;
 
 import enums.Department;
-import interfaces.utilities.Common;
+import interfaces.common.Utilities;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class QuestionMaker implements Common {
+public class QuestionMaker implements Utilities {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -36,7 +36,7 @@ public class QuestionMaker implements Common {
 
             System.out.println("Enter the department (IT/HR/MARKETING):");
             String departmentInput = scanner.nextLine();
-            Department department = Common.getDepartment(departmentInput);
+            Department department = Utilities.getDepartment(departmentInput);
 
             switch (questionType.toUpperCase()) {
                 case "MCQ":
