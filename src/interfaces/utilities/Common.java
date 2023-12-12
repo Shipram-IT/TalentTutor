@@ -1,4 +1,4 @@
-package utilities;
+package interfaces.utilities;
 
 import enums.Department;
 

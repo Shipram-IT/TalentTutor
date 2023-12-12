@@ -1,7 +1,7 @@
 package classes.Question;
 
 import enums.Department;
-import utilities.Common;
+import interfaces.utilities.Common;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
