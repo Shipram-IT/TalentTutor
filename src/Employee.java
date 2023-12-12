@@ -4,8 +4,14 @@ import java.util.List;
  * Class for Employee
  */
 public class Employee implements EmployeeAction {
+    //This is a class Id controller yielded after each object instantiated
+    private static int nextID = 1;
+
+    //Object fields
     private String name;
     private EmployeeType type;
+    private int employee_id;
+
 
     /**
      * Constructor for Employee
@@ -16,6 +22,7 @@ public class Employee implements EmployeeAction {
     public Employee(String name, EmployeeType type) {
         this.name = name;
         this.type = type;
+        this.employee_id = nextID++;
     }
 
     /**
