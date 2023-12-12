@@ -4,11 +4,28 @@ import enums.Department;
 
 // Abstract class for representing a classes.Question.Question
 public abstract class Question {
-    private final String topic;
+    private String topic = "";
     private final String questionBody;
     private final String answer;
     private final int difficultyLevel;
     private final Department department;
+
+    /**
+     * Constructor for classes.Question.Question.
+     *
+     * @param topic           The topic of the question.
+     * @param questionBody    The body of the question.
+     * @param answer          The answer to the question.
+     * @param difficultyLevel The difficulty level of the question.
+     * @param department      The department associated with the question.
+     */
+    public Question(String topic, String questionBody, String answer, int difficultyLevel, Department department) {
+        this.topic = topic;
+        this.questionBody = questionBody;
+        this.answer = answer;
+        this.difficultyLevel = difficultyLevel;
+        this.department = department;
+    }
 
     /**
      * Constructor for classes.Question.Question.
@@ -18,8 +35,7 @@ public abstract class Question {
      * @param difficultyLevel The difficulty level of the question.
      * @param department      The department associated with the question.
      */
-    public Question(String topic, String questionBody, String answer, int difficultyLevel, Department department) {
-        this.topic = topic;
+    public Question(String questionBody, String answer, int difficultyLevel, Department department) {
         this.questionBody = questionBody;
         this.answer = answer;
         this.difficultyLevel = difficultyLevel;
