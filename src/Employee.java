@@ -2,13 +2,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Employee {
-    private static int nextId = 1;
     protected String id;
     protected String name;
     protected EmployeeType type;
 
     public Employee(String name, EmployeeType type) {
-        this.id = String.valueOf(nextId++);
+        this.id = "0";
         this.name = name;
         this.type = type;
 

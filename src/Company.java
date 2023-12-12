@@ -57,6 +57,7 @@ public class Company {
     }
 
     public void showEmployeeList() {
+        populateEmployeesFromCSV();
         System.out.println("Employee List for " + name + ":");
         for (Employee employee : employees) {
             System.out.println(employee);

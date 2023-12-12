@@ -47,6 +47,24 @@ public class CsvIO {
                     writer.write(",");
                 }
                 writer.newLine();
+            } else {
+                // Find the index of the column to be incremented
+                int columnIndex = -1;
+                for (int i = 0; i < columnTitleList.length; i++) {
+                    if (columnTitleList[i].equals("id")) {
+                        columnIndex = i;
+                        break;
+                    }
+                }
+
+                if (columnIndex != -1) {
+                    // Get the last inserted value in the specified column
+                    String lastInsertedValue = getLastInsertedValue(filename, columnIndex);
+                    int nextId = Integer.parseInt(lastInsertedValue) + 1;
+
+                    // Replace the value in the columnValueList with the incremented value
+                    columnValueList[columnIndex] = String.valueOf(nextId);
+                }
             }
 
             // Write the column values
@@ -62,5 +80,29 @@ public class CsvIO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getLastInsertedValue(String filename, int columnIndex) {
+        String lastValue = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String line;
+
+            // Skip the header line
+            reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                if (values.length > columnIndex) {
+                    lastValue = values[columnIndex];
+                }
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return lastValue;
     }
 }
