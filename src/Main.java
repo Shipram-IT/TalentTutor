@@ -1,6 +1,10 @@
+import classes.Question.MCQQuestion;
+import enums.Department;
+
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -15,11 +19,16 @@ public class Main {
         }
         Menu mainMenu = new Menu(myCompany) ;
 
-        while (true) {
-            mainMenu.displayMenu();
-            int choice = mainMenu.scanner.nextInt();
-            mainMenu.processChoice(choice);
+        //while (true) {
+         //   mainMenu.displayMenu();
+         //   int choice = mainMenu.scanner.nextInt();
+         //   mainMenu.processChoice(choice);
+
+        MCQQuestion MCQ1 = new MCQQuestion("Maths","ABC","A",
+                3, Department.IT,);
         }
+
+
     }
 }
 

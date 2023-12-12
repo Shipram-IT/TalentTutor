@@ -4,11 +4,18 @@ import enums.Department;
 
 // Abstract class for representing a classes.Question.Question
 public abstract class Question {
+
     private final String topic;
     private final String questionBody;
     private final String answer;
     private final int difficultyLevel;
     private final Department department;
+
+    private int QuestionID;
+
+    private static int nextID;
+
+
 
     /**
      * Constructor for classes.Question.Question.
@@ -24,6 +31,7 @@ public abstract class Question {
         this.answer = answer;
         this.difficultyLevel = difficultyLevel;
         this.department = department;
+        this.QuestionID = nextID++;
     }
 
     /**
@@ -32,6 +40,14 @@ public abstract class Question {
      * @return The question type.
      */
     public abstract String getQuestionType();
+
+    public int getQuestionID() {
+        return QuestionID;
+    }
+
+    public void setQuestionID(int questionID) {
+        QuestionID = questionID;
+    }
 
     /**
      * Getter method for the question body.
