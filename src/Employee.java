@@ -1,55 +1,86 @@
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-/**
- * Class for Employee
- */
-public class Employee implements EmployeeAction {
-    private String name;
-    private EmployeeType type;
+public class Employee {
+    protected String id;
+    protected String name;
+    protected EmployeeType type;
 
-    /**
-     * Constructor for Employee
-     *
-     * @param name The name of the employee
-     * @param type The type of the employee (QuizMaster, Manager, RegularEmployee)
-     */
     public Employee(String name, EmployeeType type) {
+        this.id = "0";
+        this.name = name;
+        this.type = type;
+
+        // Add employee data to CSV file
+        CsvIO csvIO = new CsvIO();
+        String[] titles = {"id", "name", "type"};
+        String[] values = {id, name, type.name()};
+        csvIO.writeToCSV("employee.csv", titles, values);
+    }
+    public Employee(String  id, String name, EmployeeType type){
+        this.id = id;
         this.name = name;
         this.type = type;
     }
 
-    /**
-     * Getter method for the name of the employee
-     *
-     * @return The name of the employee
-     */
-    public String getName() {
-        return name;
+    public static ArrayList<Employee> populateEmployees(ArrayList<HashMap<String, String>> data) {
+        ArrayList<Employee> employees = new ArrayList<>();
+
+        for (HashMap<String, String> entry : data) {
+            String id = entry.get("id");
+            String name = entry.get("name");
+            EmployeeType type = EmployeeType.valueOf(entry.get("type"));
+
+            switch (type) {
+                case MANAGER:
+                    employees.add(new Manager(id, name));
+                    break;
+                case QUIZ_MASTER:
+                    employees.add(new QuizMaster(id, name));
+                    break;
+                case REGULAR_EMPLOYEE:
+                    employees.add(new RegularEmployee(id, name));
+                    break;
+                // Add more cases for other types if needed
+            }
+        }
+
+        return employees;
     }
 
-    /**
-     * Getter method for the type of the employee
-     *
-     * @return The type of the employee
-     */
-    public EmployeeType getType() {
-        return type;
-    }
-    public int getId(){
-        //return employee id that is fetched from the excel sheet and stored in program
-        return 0;
-    }
-
-    /**
-     * Implementation of viewQuizStatus from EmployeeAction interface
-     */
     @Override
-    public void viewQuizStatus(List<Employee> employees) {
-        // Logic to view quiz status
-        // ...
+    public String toString() {
+        return "Employee{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                '}';
     }
+}
 
-    public String toCsv(){
-        return name+";"+type+";";
+class Manager extends Employee {
+    public Manager(String name) {
+        super(name, EmployeeType.MANAGER);
+    }
+    public Manager(String id, String name) {
+        super(id, name, EmployeeType.MANAGER);
+    }
+}
+
+class QuizMaster extends Employee {
+    public QuizMaster(String name) {
+        super(name, EmployeeType.QUIZ_MASTER);
+    }
+    public QuizMaster(String id, String name) {
+        super(id, name, EmployeeType.QUIZ_MASTER);
+    }
+}
+
+class RegularEmployee extends Employee {
+    public RegularEmployee(String name) {
+        super(name, EmployeeType.REGULAR_EMPLOYEE);
+    }
+    public RegularEmployee(String id, String name) {
+        super(id, name, EmployeeType.REGULAR_EMPLOYEE);
     }
 }
