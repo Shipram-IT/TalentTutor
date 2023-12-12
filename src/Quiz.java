@@ -1,3 +1,6 @@
+import classes.Question.Question;
+import enums.Department;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -25,17 +25,17 @@ public class Manager extends Employee implements EmployeeAction {
     }
 
     /**
-     * Manager adds a Quiz Master
+     * Manager employee into Company
      */
-    public QuizMaster addQuizMaster(String name) {
-        QuizMaster newquizMaster = new QuizMaster(name);
-        Company.addQuizMaster(name);
-        return newquizMaster;
+    public void hireEmployee(Company company, Employee employee) {
+        company.addEmployee(employee);
     }
 
-    public Employee addEmployee (String name, EmployeeType type) {
-        Employee newEmployee = new Employee(name, type);
-        Company.addEmployee(name, type);
-        return newEmployee;
+    public void deleteEmployee(Company company, Employee employee){
+        company.removeEmployee(employee);
+    }
+
+    public void deleteEmployee(Company company, int employeeIndex){
+        company.removeEmployee(company.getEmployees().get(employeeIndex));
     }
 }

@@ -23,7 +23,7 @@ public class QuizMaster extends Employee {
 
     //need to complete the following:
 
-//    public Quiz createQuiz(Department department, int difficultyLevel, int numQuestions, QuestionBank questionBank) {
+//    public Quiz createQuiz(enums.Department department, int difficultyLevel, int numQuestions, QuestionBank questionBank) {
 //        // Logic to generate a quiz based on the specified criteria
 //        // ...
 //

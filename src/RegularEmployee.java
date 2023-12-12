@@ -1,3 +1,5 @@
+import enums.Department;
+
 import java.util.List;
 
 // Class for RegularEmployee
@@ -33,5 +35,8 @@ public class RegularEmployee extends Employee implements EmployeeAction {
      */
     public Department getDepartment() {
         return department;
+    }
+    public String toCsv(){
+        return super.toCsv()+department;
     }
 }

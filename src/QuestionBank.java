@@ -1,3 +1,5 @@
+import classes.Question.Question;
+
 import java.util.ArrayList;
 import java.util.List;
 
