@@ -14,6 +14,7 @@ public class MCQQuestion extends Question {
     /**
      * Constructor for classes.Question.MCQQuestion.
      *
+     * @param topic           The topic of the question
      * @param questionBody    The body of the question.
      * @param answer          The answer to the question.
      * @param difficultyLevel The difficulty level of the question.
@@ -23,6 +24,21 @@ public class MCQQuestion extends Question {
     public MCQQuestion(String topic, String questionBody, String answer, int difficultyLevel, Department department,
                        List<String> options) {
         super(topic, questionBody, answer, difficultyLevel, department);
+        this.options = options;
+    }
+
+    /**
+     * Constructor for classes.Question.MCQQuestion.
+     *
+     * @param questionBody    The body of the question.
+     * @param answer          The answer to the question.
+     * @param difficultyLevel The difficulty level of the question.
+     * @param department      The department associated with the question.
+     * @param options         The options for the MCQ question.
+     */
+    public MCQQuestion(String questionBody, String answer, int difficultyLevel, Department department,
+                       List<String> options) {
+        super(questionBody, answer, difficultyLevel, department);
         this.options = options;
     }
 
