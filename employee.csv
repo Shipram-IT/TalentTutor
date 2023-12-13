@@ -1,2 +1,4 @@
 id;name;type;
 0;John;MANAGER;
+1;Kyle;REGULAR_EMPLOYEE;
+2;Sam;QUIZ_MASTER;

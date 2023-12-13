@@ -1,12 +1,6 @@
 import java.util.Scanner;
 
 public class Menu {
-    public static void showMainMenu() {
-        System.out.println("Choose Role: ");
-        System.out.println("1) Manager");
-        System.out.println("2) Quiz Master");
-        System.out.println("3) Regular Employee");
-    }
 
     public static int getRoleChoice() {
         Scanner scanner = new Scanner(System.in);
@@ -16,15 +10,15 @@ public class Menu {
 
     public static String getEmployeeId() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your ID: ");
+        System.out.print("Enter your ID or enter 'q' to end the program: ");
         return scanner.nextLine();
     }
 
     public static void showAccessDenied() {
-        System.out.println("Access Denied! Invalid ID or Role.");
+        System.out.println("Access Denied! ID not found or invalid option entered.");
     }
 
-    public static void showManagerSubMenu(Manager manager) {
+    public static void showSubMenu(Manager manager) {
         System.out.println("Manager Menu:");
         System.out.println("1) Add Employee");
         System.out.println("2) Show all Employees");
@@ -33,7 +27,7 @@ public class Menu {
         System.out.println("5) Exit");
     }
 
-    public static void showQuizMasterSubMenu(QuizMaster quizMaster) {
+    public static void showSubMenu(QuizMaster quizMaster) {
         System.out.println("Quiz Master Menu:");
         System.out.println("1) Create Question");
         System.out.println("2) Show all Questions");
@@ -44,7 +38,7 @@ public class Menu {
         System.out.println("7) Exit");
     }
 
-    public static void showRegularEmployeeSubMenu(RegularEmployee regularEmployee) {
+    public static void showSubMenu(RegularEmployee regularEmployee) {
         System.out.println("Regular Employee Menu:");
         System.out.println("1) Start a Quiz");
         System.out.println("2) See Previous Quiz Status");

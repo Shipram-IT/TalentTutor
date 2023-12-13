@@ -5,54 +5,40 @@ public class Main {
         Company company = new Company("MyCompany");
 
         while (true){
-            // Get user input for role and ID
-            Menu.showMainMenu();
-            int roleChoice = Menu.getRoleChoice();
             String employeeId = Menu.getEmployeeId();
-
-            // Access the submenu based on role and ID
+            if (employeeId.equalsIgnoreCase("Q")){
+                System.out.println("Thanks for accessing TalentTutor. Program closing...");
+                break;
+            }
             Employee employee = company.getEmployeeById(employeeId);
             if (employee != null) {
-                switch (roleChoice) {
-                    case 1:
-                        if (employee instanceof Manager) {
-                            Manager manager = (Manager) employee;
-                            System.out.println("You are now Manager: " + manager.name);
-                            showManagerMenu(manager);
-                        } else {
-                            Menu.showAccessDenied();
-                        }
-                        break;
-                    case 2:
-                        if (employee instanceof QuizMaster) {
-                            QuizMaster quizMaster = (QuizMaster) employee;
-                            System.out.println("You are now Quiz Master: " + quizMaster.name);
-                            showQuizMasterMenu(quizMaster);
-                        } else {
-                            Menu.showAccessDenied();
-                        }
-                        break;
-                    case 3:
-                        if (employee instanceof RegularEmployee) {
-                            RegularEmployee regularEmployee = (RegularEmployee) employee;
-                            System.out.println("You are now Regular Employee: " + regularEmployee.name);
-                            showRegularEmployeeMenu(regularEmployee);
-                        } else {
-                            Menu.showAccessDenied();
-                        }
-                        break;
-                    default:
-                        System.out.println("Invalid Choice");
+                String employeeType = employee.getClass().getName();
+                System.out.printf("Welcome, %s (%s)\n", employee.name, employeeType);
+                if (employeeType.equals("Manager")) {
+                    Manager manager = (Manager) employee;
+                    showMenu(manager);
+                }
+                else if (employeeType.equals("QuizMaster")) {
+                    QuizMaster quizMaster = (QuizMaster) employee;
+                    showMenu(quizMaster);
+                }
+                else if (employeeType.equals("RegularEmployee")) {
+                    RegularEmployee regularEmployee = (RegularEmployee) employee;
+                    showMenu(regularEmployee);
+                }
+                else{
+                    System.out.println("Error");
                 }
             } else {
                 Menu.showAccessDenied();
             }
         }
+
     }
 
-    private static void showManagerMenu(Manager manager) {
+    private static void showMenu(Manager manager) {
         while (true) {
-            Menu.showManagerSubMenu(manager);
+            Menu.showSubMenu(manager);
             int choice = Menu.getRoleChoice();
             switch (choice) {
                 case 1:
@@ -80,9 +66,9 @@ public class Main {
         }
     }
 
-    private static void showQuizMasterMenu(QuizMaster quizMaster) {
+    private static void showMenu(QuizMaster quizMaster) {
         while (true) {
-            Menu.showQuizMasterSubMenu(quizMaster);
+            Menu.showSubMenu(quizMaster);
             int choice = Menu.getRoleChoice();
             switch (choice) {
                 case 1:
@@ -118,9 +104,9 @@ public class Main {
         }
     }
 
-    private static void showRegularEmployeeMenu(RegularEmployee regularEmployee) {
+    private static void showMenu(RegularEmployee regularEmployee) {
         while (true) {
-            Menu.showRegularEmployeeSubMenu(regularEmployee);
+            Menu.showSubMenu(regularEmployee);
             int choice = Menu.getRoleChoice();
             switch (choice) {
                 case 1:
@@ -140,4 +126,3 @@ public class Main {
         }
     }
 }
-
