@@ -29,6 +29,10 @@ public class Company {
             CsvIO csvIO = new CsvIO();
             ArrayList<HashMap<String, String>> data = csvIO.readFromCSV("employee.csv", fields);
             employees = Employee.populateEmployees(data);
+            if(!hasManager()){
+                createManager();
+                populateEmployeesFromCSV();
+            }
         }
     }
 
