@@ -32,6 +32,15 @@ public class Company {
         }
     }
 
+    public Employee getEmployeeById(String id) {
+        for (Employee employee : employees) {
+            if (employee.id.equals(id)) {
+                return employee;
+            }
+        }
+        return null;
+    }
+
     private boolean hasManager() {
         for (Employee employee : employees) {
             if (employee instanceof Manager) {
@@ -64,4 +73,6 @@ public class Company {
         }
         System.out.println();
     }
+
+
 }
