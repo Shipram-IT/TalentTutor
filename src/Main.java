@@ -4,47 +4,49 @@ public class Main {
         // Create a company and show the employee list
         Company company = new Company("MyCompany");
 
-        // Get user input for role and ID
-        Menu.showMainMenu();
-        int roleChoice = Menu.getRoleChoice();
-        String employeeId = Menu.getEmployeeId();
+        while (true){
+            // Get user input for role and ID
+            Menu.showMainMenu();
+            int roleChoice = Menu.getRoleChoice();
+            String employeeId = Menu.getEmployeeId();
 
-        // Access the submenu based on role and ID
-        Employee employee = company.getEmployeeById(employeeId);
-        if (employee != null) {
-            switch (roleChoice) {
-                case 1:
-                    if (employee instanceof Manager) {
-                        Manager manager = (Manager) employee;
-                        System.out.println("You are now Manager: " + manager.name);
-                        showManagerMenu(manager);
-                    } else {
-                        Menu.showAccessDenied();
-                    }
-                    break;
-                case 2:
-                    if (employee instanceof QuizMaster) {
-                        QuizMaster quizMaster = (QuizMaster) employee;
-                        System.out.println("You are now Quiz Master: " + quizMaster.name);
-                        showQuizMasterMenu(quizMaster);
-                    } else {
-                        Menu.showAccessDenied();
-                    }
-                    break;
-                case 3:
-                    if (employee instanceof RegularEmployee) {
-                        RegularEmployee regularEmployee = (RegularEmployee) employee;
-                        System.out.println("You are now Regular Employee: " + regularEmployee.name);
-                        showRegularEmployeeMenu(regularEmployee);
-                    } else {
-                        Menu.showAccessDenied();
-                    }
-                    break;
-                default:
-                    System.out.println("Invalid Choice");
+            // Access the submenu based on role and ID
+            Employee employee = company.getEmployeeById(employeeId);
+            if (employee != null) {
+                switch (roleChoice) {
+                    case 1:
+                        if (employee instanceof Manager) {
+                            Manager manager = (Manager) employee;
+                            System.out.println("You are now Manager: " + manager.name);
+                            showManagerMenu(manager);
+                        } else {
+                            Menu.showAccessDenied();
+                        }
+                        break;
+                    case 2:
+                        if (employee instanceof QuizMaster) {
+                            QuizMaster quizMaster = (QuizMaster) employee;
+                            System.out.println("You are now Quiz Master: " + quizMaster.name);
+                            showQuizMasterMenu(quizMaster);
+                        } else {
+                            Menu.showAccessDenied();
+                        }
+                        break;
+                    case 3:
+                        if (employee instanceof RegularEmployee) {
+                            RegularEmployee regularEmployee = (RegularEmployee) employee;
+                            System.out.println("You are now Regular Employee: " + regularEmployee.name);
+                            showRegularEmployeeMenu(regularEmployee);
+                        } else {
+                            Menu.showAccessDenied();
+                        }
+                        break;
+                    default:
+                        System.out.println("Invalid Choice");
+                }
+            } else {
+                Menu.showAccessDenied();
             }
-        } else {
-            Menu.showAccessDenied();
         }
     }
 

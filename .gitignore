@@ -30,3 +30,5 @@ bin/
 
 ### Others ###
 !**/src/employees.csv
+!**/src/employee.csv
+.idea/misc.xml
