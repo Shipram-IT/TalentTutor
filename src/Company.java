@@ -81,6 +81,7 @@ public class Company {
             default:
                 System.out.println("Invalid role.");
         }
+        populateEmployeesFromCSV();
     }
 
     public void showEmployeeList() {
@@ -112,6 +113,7 @@ public class Company {
         } else {
             System.out.println("Employee with ID " + id + " not found.");
         }
+        populateEmployeesFromCSV();
     }
     private void updateCSV() {
         // Rewrite the CSV file with the updated employee list

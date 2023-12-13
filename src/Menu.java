@@ -92,10 +92,16 @@ public class Menu {
                     // Remove an Employee
                     company.showEmployeeList();
                     Scanner scanner = new Scanner(System.in);
-                    System.out.println("Enter employee ID to remove: ");
+                    System.out.print("Enter employee ID to remove or enter 'q' to exit: ");
                     String delEmployeeID = scanner.nextLine();
-                    company.removeEmployee(delEmployeeID);
-
+                    if (delEmployeeID.equalsIgnoreCase("Q")){
+                        break;
+                    } else if (delEmployeeID.equalsIgnoreCase(manager.id)) {
+                        System.out.println("You cannot remove your own registry");
+                        break;
+                    } else {
+                        company.removeEmployee(delEmployeeID);
+                    }
                     break;
                 case 5:
                     System.out.println("Exiting Manager Menu");
