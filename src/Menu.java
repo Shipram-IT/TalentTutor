@@ -15,7 +15,11 @@ public class Menu {
     }
 
     public static void showAccessDenied() {
-        System.out.println("Access Denied! ID not found or invalid option entered.");
+        System.out.println("Access Denied! Invalid option entered.");
+    }
+
+    public static void showReturnMessage(){
+        System.out.println("Returning to previous menu...");
     }
 
     public static void showSubMenu(Manager manager) {
@@ -44,4 +48,117 @@ public class Menu {
         System.out.println("2) See Previous Quiz Status");
         System.out.println("3) Exit");
     }
+
+    protected static void showMenu(Company company, Manager manager) {
+        while (true) {
+            Menu.showSubMenu(manager);
+            int choice = Menu.getRoleChoice();
+            switch (choice) {
+                case 1:
+                    //Add Employee
+                    System.out.println("Enter employee type:\n" +
+                            "1) Manager\n" +
+                            "2) Quiz Master\n" +
+                            "3) Regular Employee\n" +
+                            "4) Exit");
+                    int innerChoice = Menu.getRoleChoice();
+                    switch (innerChoice){
+                        case 1:
+                            company.createEmployee("manager");
+                            break;
+                        case 2:
+                            company.createEmployee("quizmaster");
+                            break;
+                        case 3:
+                            company.createEmployee("regularemployee");
+                            break;
+                        case 4:
+                            showReturnMessage();
+                            break;
+                        default:
+                            Menu.showAccessDenied();
+                    }
+
+                    break;
+                case 2:
+                    // Show all Employees
+                    // Implement this based on your requirements
+                    break;
+                case 3:
+                    // Show Employee's Quiz Status
+                    // Implement this based on your requirements
+                    break;
+                case 4:
+                    // Remove an Employee
+                    // Implement this based on your requirements
+                    break;
+                case 5:
+                    System.out.println("Exiting Manager Menu");
+                    return;
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+    }
+
+    protected static void showMenu(Company company, QuizMaster quizMaster) {
+        while (true) {
+            Menu.showSubMenu(quizMaster);
+            int choice = Menu.getRoleChoice();
+            switch (choice) {
+                case 1:
+                    // Create Question
+                    // Implement this based on your requirements
+                    break;
+                case 2:
+                    // Show all Questions
+                    // Implement this based on your requirements
+                    break;
+                case 3:
+                    // Remove a Question
+                    // Implement this based on your requirements
+                    break;
+                case 4:
+                    // Create Quiz
+                    // Implement this based on your requirements
+                    break;
+                case 5:
+                    // Show all Quizzes
+                    // Implement this based on your requirements
+                    break;
+                case 6:
+                    // Remove a Quiz
+                    // Implement this based on your requirements
+                    break;
+                case 7:
+                    System.out.println("Exiting Quiz Master Menu");
+                    return;
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+    }
+
+    protected static void showMenu(Company company, RegularEmployee regularEmployee) {
+        while (true) {
+            Menu.showSubMenu(regularEmployee);
+            int choice = Menu.getRoleChoice();
+            switch (choice) {
+                case 1:
+                    // Start a Quiz
+                    // Implement this based on your requirements
+                    break;
+                case 2:
+                    // See Previous Quiz Status
+                    // Implement this based on your requirements
+                    break;
+                case 3:
+                    System.out.println("Exiting Regular Employee Menu");
+                    return;
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+    }
+
 }

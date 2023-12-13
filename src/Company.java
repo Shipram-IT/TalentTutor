@@ -12,7 +12,7 @@ public class Company {
         this.employees = new ArrayList<>();
 
         if (!csvFileExists()) {
-            createManager();
+            createEmployee("manager");
         }
         populateEmployeesFromCSV();
 //        showEmployeeList();
@@ -30,7 +30,8 @@ public class Company {
             ArrayList<HashMap<String, String>> data = csvIO.readFromCSV("employee.csv", fields);
             employees = Employee.populateEmployees(data);
             if(!hasManager()){
-                createManager();
+                System.out.println("No manager found. Please enter details to create a manager:");
+                createEmployee("manager");
                 populateEmployeesFromCSV();
             }
         }
@@ -53,29 +54,31 @@ public class Company {
         }
         return false;
     }
-    private void createManager() {
+
+    protected void createEmployee(String role) {
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter " + role + " Name: ");
+        String name = scanner.nextLine();
 
-        // Check if a manager already exists
-        if (!hasManager()) {
-            System.out.println("No manager found. Please enter details to create a manager:");
-            System.out.print("Enter Manager Name: ");
-            String name = scanner.nextLine();
-            Manager manager = new Manager(name);
-            employees.add(manager);
-            System.out.println("Manager created successfully.");
-        } else {
-            System.out.println("Manager already exists.");
+        switch (role.toLowerCase()) {
+            case "manager":
+                Manager manager = new Manager(name);
+                employees.add(manager);
+                System.out.println(role + " created successfully.");
+                break;
+            case "regularemployee":
+                RegularEmployee regularEmployee = new RegularEmployee(name);
+                employees.add(regularEmployee);
+                System.out.println(role + " created successfully.");
+                break;
+            case "quizmaster":
+                QuizMaster quizMaster = new QuizMaster(name);
+                employees.add(quizMaster);
+                System.out.println(role + " created successfully.");
+                break;
+            default:
+                System.out.println("Invalid role.");
         }
-    }
-
-    public void showEmployeeList() {
-        populateEmployeesFromCSV();
-        System.out.println("Employee List for " + name + ":");
-        for (Employee employee : employees) {
-            System.out.println(employee);
-        }
-        System.out.println();
     }
 
 
