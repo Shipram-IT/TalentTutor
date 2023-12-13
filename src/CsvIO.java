@@ -14,7 +14,7 @@ public class CsvIO {
             reader.readLine();
 
             while ((line = reader.readLine()) != null) {
-                String[] values = line.split(",");
+                String[] values = line.split(";");
                 HashMap<String, String> entry = new HashMap<>();
 
                 for (int i = 0; i < arrayOfFields.length; i++) {
@@ -44,7 +44,7 @@ public class CsvIO {
             if (isNewFile) {
                 for (String title : columnTitleList) {
                     writer.write(title);
-                    writer.write(",");
+                    writer.write(";");
                 }
                 writer.newLine();
             } else {
@@ -70,7 +70,7 @@ public class CsvIO {
             // Write the column values
             for (String value : columnValueList) {
                 writer.write(value);
-                writer.write(",");
+                writer.write(";");
             }
             writer.newLine();
 
@@ -92,7 +92,7 @@ public class CsvIO {
             reader.readLine();
 
             while ((line = reader.readLine()) != null) {
-                String[] values = line.split(",");
+                String[] values = line.split(";");
                 if (values.length > columnIndex) {
                     lastValue = values[columnIndex];
                 }
