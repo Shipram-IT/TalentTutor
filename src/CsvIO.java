@@ -105,4 +105,29 @@ public class CsvIO {
 
         return lastValue;
     }
+
+    public void overwrite(String filename, String[] columnTitleList, ArrayList<HashMap<String, String>> columnValueList) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filename, false));
+            for (String title : columnTitleList) {
+                writer.write(title);
+                writer.write(";");
+            }
+                writer.newLine();
+
+            // Write the data
+            for (HashMap<String, String> entry : columnValueList) {
+                for (String value : entry.values()) {
+                    writer.write(value);
+                    writer.write(";");
+                }
+                writer.newLine();
+            }
+            writer.close();
+            System.out.println("Data written to " + filename + " successfully!");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

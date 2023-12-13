@@ -90,7 +90,12 @@ public class Menu {
                     break;
                 case 4:
                     // Remove an Employee
-                    // Implement this based on your requirements
+                    company.showEmployeeList();
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.println("Enter employee ID to remove: ");
+                    String delEmployeeID = scanner.nextLine();
+                    company.removeEmployee(delEmployeeID);
+
                     break;
                 case 5:
                     System.out.println("Exiting Manager Menu");

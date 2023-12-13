@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 public class Company {
@@ -12,6 +13,7 @@ public class Company {
         this.employees = new ArrayList<>();
 
         if (!csvFileExists()) {
+            System.out.println("No employee records found. Create a manager");
             createEmployee("manager");
         }
         populateEmployeesFromCSV();
@@ -89,5 +91,43 @@ public class Company {
         }
         System.out.println();
     }
-    
+
+    public ArrayList<Employee> getEmployees(){
+        return this.employees;
+    }
+
+    public void removeEmployee(String id) {
+        Employee employeeToRemove = null;
+        for (Employee employee : employees) {
+            if (employee.id.equals(id)) {
+                employeeToRemove = employee;
+                break;
+            }
+        }
+
+        if (employeeToRemove != null) {
+            employees.remove(employeeToRemove);
+            updateCSV();
+            System.out.println("Employee with ID " + id + " removed successfully.");
+        } else {
+            System.out.println("Employee with ID " + id + " not found.");
+        }
+    }
+    private void updateCSV() {
+        // Rewrite the CSV file with the updated employee list
+        CsvIO csvIO = new CsvIO();
+        String[] titles = {"id", "name", "type"};
+        ArrayList<HashMap<String, String>> data = new ArrayList<>();
+        for (Employee employee : employees) {
+            LinkedHashMap<String, String> entry = new LinkedHashMap<>();
+            entry.put("id", employee.id);
+            entry.put("name", employee.name);
+            entry.put("type", employee.type.name());
+            data.add(entry);
+        }
+        csvIO.overwrite("employee.csv", titles, data);
+        employees = Employee.populateEmployees(data);
+
+    }
+
 }
