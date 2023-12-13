@@ -82,7 +82,7 @@ public class Menu {
                     break;
                 case 2:
                     // Show all Employees
-                    // Implement this based on your requirements
+                    company.showEmployeeList();
                     break;
                 case 3:
                     // Show Employee's Quiz Status
