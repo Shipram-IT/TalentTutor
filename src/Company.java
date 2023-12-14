@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 public class Company {
@@ -12,7 +13,8 @@ public class Company {
         this.employees = new ArrayList<>();
 
         if (!csvFileExists()) {
-            createManager();
+            System.out.println("No employee records found. Create a manager");
+            createEmployee("manager");
         }
         populateEmployeesFromCSV();
 //        showEmployeeList();
@@ -30,7 +32,8 @@ public class Company {
             ArrayList<HashMap<String, String>> data = csvIO.readFromCSV("employee.csv", fields);
             employees = Employee.populateEmployees(data);
             if(!hasManager()){
-                createManager();
+                System.out.println("No manager found. Please enter details to create a manager:");
+                createEmployee("manager");
                 populateEmployeesFromCSV();
             }
         }
@@ -53,20 +56,32 @@ public class Company {
         }
         return false;
     }
-    private void createManager() {
-        Scanner scanner = new Scanner(System.in);
 
-        // Check if a manager already exists
-        if (!hasManager()) {
-            System.out.println("No manager found. Please enter details to create a manager:");
-            System.out.print("Enter Manager Name: ");
-            String name = scanner.nextLine();
-            Manager manager = new Manager(name);
-            employees.add(manager);
-            System.out.println("Manager created successfully.");
-        } else {
-            System.out.println("Manager already exists.");
+    protected void createEmployee(String role) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter " + role + " Name: ");
+        String name = scanner.nextLine();
+
+        switch (role.toLowerCase()) {
+            case "manager":
+                Manager manager = new Manager(name);
+                employees.add(manager);
+                System.out.println(role + " created successfully.");
+                break;
+            case "regularemployee":
+                RegularEmployee regularEmployee = new RegularEmployee(name);
+                employees.add(regularEmployee);
+                System.out.println(role + " created successfully.");
+                break;
+            case "quizmaster":
+                QuizMaster quizMaster = new QuizMaster(name);
+                employees.add(quizMaster);
+                System.out.println(role + " created successfully.");
+                break;
+            default:
+                System.out.println("Invalid role.");
         }
+        populateEmployeesFromCSV();
     }
 
     public void showEmployeeList() {
@@ -78,5 +93,43 @@ public class Company {
         System.out.println();
     }
 
+    public ArrayList<Employee> getEmployees(){
+        return this.employees;
+    }
+
+    public void removeEmployee(String id) {
+        Employee employeeToRemove = null;
+        for (Employee employee : employees) {
+            if (employee.id.equals(id)) {
+                employeeToRemove = employee;
+                break;
+            }
+        }
+
+        if (employeeToRemove != null) {
+            employees.remove(employeeToRemove);
+            updateCSV();
+            System.out.println("Employee with ID " + id + " removed successfully.");
+        } else {
+            System.out.println("Employee with ID " + id + " not found.");
+        }
+        populateEmployeesFromCSV();
+    }
+    private void updateCSV() {
+        // Rewrite the CSV file with the updated employee list
+        CsvIO csvIO = new CsvIO();
+        String[] titles = {"id", "name", "type"};
+        ArrayList<HashMap<String, String>> data = new ArrayList<>();
+        for (Employee employee : employees) {
+            LinkedHashMap<String, String> entry = new LinkedHashMap<>();
+            entry.put("id", employee.id);
+            entry.put("name", employee.name);
+            entry.put("type", employee.type.name());
+            data.add(entry);
+        }
+        csvIO.overwrite("employee.csv", titles, data);
+        employees = Employee.populateEmployees(data);
+
+    }
 
 }
