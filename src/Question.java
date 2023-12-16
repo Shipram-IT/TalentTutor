@@ -18,15 +18,14 @@ public class Question {
         this.answer = answer;
         this.difficulty = difficulty;
         this.type = type;
-
-        this.titles = new String[]{"id", "body", "answer", "difficulty", "type"};
-        this.values = new String[]{id, body, answer, difficulty.name(), type.name()};
-
-
-
-        // Add employee data to CSV file
-        CsvIO csvIO = new CsvIO();
-        csvIO.writeToCSV("questionbank.csv", titles, values);
+        if (type != QuestionType.MCQ) {
+            //the file writer is called differently for MCQ
+            this.titles = new String[]{"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
+            this.values = new String[]{id, body, answer, difficulty.name(), type.name(), "", "", "", ""};
+            // Add data to CSV file
+            CsvIO csvIO = new CsvIO();
+            csvIO.writeToCSV("questionbank.csv", titles, values);
+        }
     }
 
     public Question(String id, String body, String answer, Difficulty difficulty, QuestionType type) {
@@ -50,7 +49,7 @@ public class Question {
 
                 switch (type) {
                     case MCQ:
-                        String[] options = entry.get("options").split(",");
+                        String[] options = entry.get("options").split(";");
                         questions.add(new MCQQuestion(id, body, answer, difficulty, options));
                         break;
                     case FillInBlank:
@@ -66,6 +65,26 @@ public class Question {
             return questions;
         }
 
+    public String getId(){
+        return this.id;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public QuestionType getType() {
+        return type;
+    }
+
 }
 class MCQQuestion extends Question {
     protected String[] options = new String[4];
@@ -73,13 +92,23 @@ class MCQQuestion extends Question {
     public MCQQuestion(String body, String answer, Difficulty difficulty, String[] options) {
         super(body, answer, difficulty, QuestionType.MCQ);
         this.options = options;
+        this.titles = new String[]{"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
+        this.values = new String[]{id, body, answer, difficulty.name(), QuestionType.MCQ.name(),options[0], options[1], options[2], options[3]};
+        CsvIO csvIO = new CsvIO();
+        csvIO.writeToCSV("questionbank.csv", titles, values);
     }
 
     public MCQQuestion(String id, String body, String answer, Difficulty difficulty, String[] options) {
         super(id, body, answer, difficulty, QuestionType.MCQ);
         this.options = options;
-        this.titles = new String[]{"id", "body", "answer", "difficulty", "option1", "option2", "option3", "option4"};
-        this.values = new String[]{id, body, answer, difficulty.name(), options[0], options[1], options[2], options[3]};
+        this.titles = new String[]{"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
+        this.values = new String[]{id, body, answer, difficulty.name(), QuestionType.MCQ.name(), options[0], options[1], options[2], options[3]};
+        CsvIO csvIO = new CsvIO();
+        csvIO.writeToCSV("questionbank.csv", titles, values);
+    }
+
+    public String[] getOptions() {
+        return options;
     }
 }
 class FillInBlank extends Question{
