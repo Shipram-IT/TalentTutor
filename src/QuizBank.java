@@ -63,12 +63,12 @@ public class QuizBank {
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
                 // Write the header
-                writer.write("questionId");
+                //System.out.println(quiz.getQuestions());
+                writer.write("questionId;");
                 writer.newLine();
-
                 // Write each question ID to the CSV file
                 for (Question question : quiz.getQuestions()) {
-                    writer.write(question.getId());
+                    writer.write(question.getId() + ";");
                     writer.newLine();
                 }
 
