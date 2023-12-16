@@ -4,6 +4,8 @@ public class Main {
         // Create a company and show the employee list
         Company company = new Company("MyCompany");
         QuestionBank questionBank = new QuestionBank("MyQuestionBank");
+        QuizBank quizBank = new QuizBank(questionBank);
+
         boolean programRunning = true;
         while (programRunning){
             String employeeId = Menu.getEmployeeId();
@@ -21,7 +23,7 @@ public class Main {
                 }
                 else if (employee instanceof QuizMaster) {
                     QuizMaster quizMaster = (QuizMaster) employee;
-                    Menu.showMenu(quizMaster, questionBank);
+                    Menu.showMenu(quizMaster, questionBank, quizBank);
                 }
                 else if (employee instanceof RegularEmployee) {
                     RegularEmployee regularEmployee = (RegularEmployee) employee;

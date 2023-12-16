@@ -130,4 +130,15 @@ public class CsvIO {
             e.printStackTrace();
         }
     }
+
+    public static File[] loadFiles(String folderPath) {
+        File folder = new File(folderPath);
+        // Check if the folder exists
+        if (!folder.exists() || !folder.isDirectory()) {
+            System.out.println("Invalid folder path: " + folder.getName());
+            return null;
+        }
+        // Get a list of all files in the folder
+        return folder.listFiles();
+    }
 }

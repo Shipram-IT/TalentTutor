@@ -1,110 +1,58 @@
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.LinkedHashMap;
-//
-//public class QuizBank {
-//    private ArrayList<Quiz> quizzes;
-//
-//    public QuizBank(String name) {
-//        this.quizzes = new ArrayList<>();
-//        if (!csvFileExists()) {
-//            System.out.println("No question records found. Add must questions to the bank.");
-//        } else{
-//            populateQuestionsFromCSV();
-//        }
-//    }
-//
-//
-//    private static boolean csvFileExists() {
-//        return new java.io.File("questionbank.csv").exists();
-//    }
-//
-//    private void populateQuestionsFromCSV() {
-//        if (csvFileExists()) {
-//            String[] fields = {"id", "topic","body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
-//            CsvIO csvIO = new CsvIO();
-//            ArrayList<HashMap<String, String>> data = csvIO.readFromCSV("questionbank.csv", fields);
-//            for (HashMap<String, String> entry : data) {
-//                String id = entry.get("id");
-//                enums.Topic topic = enums.Topic.valueOf(entry.get("topic"));
-//                String body = entry.get("body");
-//                String answer = entry.get("answer");
-//                enums.Difficulty difficulty = enums.Difficulty.valueOf(entry.get("difficulty"));
-//                enums.QuestionType type = enums.QuestionType.valueOf(entry.get("type"));
-//                String[] options = new String[4];
-//                for (int i = 1; i <= 4; i++) {
-//                    options[i - 1] = entry.get("option" + i);
-//                }
-//                switch (type) {
-//                    case MCQ:
-//                        questions.add(new MCQQuestion(id, body, answer, difficulty, options, topic));
-//                        break;
-//                    case FillInBlank:
-//                        questions.add(new FillInBlank(id, body, answer, difficulty, topic));
-//                        break;
-//                    case TrueFalse:
-//                        questions.add(new TrueFalse(id, body, answer, difficulty, topic));
-//                        break;
-//                    // Add more cases for other types if needed
-//                }
-//            }
-//        }
-//    }
-//
-//    public Question getQuestionById(String id) {
-//        for (Question question : questions) {
-//            if (question.getId().equals(id)) {
-//                return question;
-//            }
-//        }
-//        return null;
-//    }
-//
-//    public ArrayList<Question> getQuestion(enums.Topic topic, enums.Difficulty difficulty) {
-//        ArrayList<Question> questionList = new ArrayList<>();
-//        for (Question question : questions) {
-//            if (question.getTopic().equals(topic) && question.getDifficulty().equals(difficulty)) {
-//                questionList.add(question);
-//            }
-//        }
-//        return questionList;
-//    }
-//
-//    protected void addQuestion(Question question) {
-//        questions.add(question);
-//        updateCSV();
-//        System.out.println("Question added successfully.");
-//    }
-//
-//
-//    public void showQuestionList() {
-//        if (questions == null || questions.isEmpty()){
-//            System.out.println("Question bank is empty, try to add some questions.");
-//        }
-//        else {
-//            System.out.println("Question Bank:");
-//            for (Question question : questions) {
-//                System.out.println(question);
-//            }
-//        }
-//    }
-//
-//    public ArrayList<Question> getQuestions() {
-//        return this.questions;
-//    }
-//
-//    public void removeQuestion(String id) {
-//        Question questionToRemove = getQuestionById(id);
-//
-//        if (questionToRemove != null) {
-//            questions.remove(questionToRemove);
-//            updateCSV();
-//            System.out.println("Question with ID " + id + " removed successfully.");
-//        } else {
-//            System.out.println("Question with ID " + id + " not found.");
-//        }
-//    }
-//
+import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+public class QuizBank {
+    private ArrayList<Quiz> quizzes;
+
+    public QuizBank(QuestionBank questionBank) {
+        this.quizzes = new ArrayList<>();
+        File[] files = CsvIO.loadFiles("csv/quiz");
+        if (files == null) {
+            System.out.println("No quiz records found. Add must quizzed to the bank.");
+        } else{
+            for (File f : files){
+                populateQuestionsFromCSV(f, questionBank);
+            }
+        }
+    }
+
+    private void populateQuestionsFromCSV(File file, QuestionBank questionBank) {
+        String[] fields = {"questionId"};
+        //file structure [quizID_subject_difficulty]
+        String[] fileNameParts = file.toString().replace(".csv", "").replace("csv\\quiz\\","").split("_");
+        //System.out.println(fileNameParts[0] +
+        //        " " + enums.Topic.valueOf(fileNameParts[1]) +
+        //        " " +  enums.Difficulty.valueOf(fileNameParts[2]));
+        CsvIO csvIO = new CsvIO();
+        ArrayList<HashMap<String, String>> data = csvIO.readFromCSV(file.getAbsolutePath(), fields);
+        ArrayList<Question> questionsInQuiz = new ArrayList<>();
+        for (HashMap<String, String> entry : data) {
+            String questionId = entry.get("questionId");
+            Question question = questionBank.getQuestionById(questionId);
+            // Check if the question is not null and matches the topic and difficulty
+            if (question != null && question.getTopic().equals(enums.Topic.valueOf(fileNameParts[1]))
+                    && question.getDifficulty().equals(enums.Difficulty.valueOf(fileNameParts[2]))) {
+                questionsInQuiz.add(question);
+            } else {
+                System.out.println("Error: Question with ID " + questionId + " does not match the specified topic and difficulty.");
+            }
+        }
+        quizzes.add(new
+                Quiz(fileNameParts[0],
+                enums.Topic.valueOf(fileNameParts[1]),
+                enums.Difficulty.valueOf(fileNameParts[2]),
+                questionsInQuiz));
+    }
+    public void showQuizzes() {
+        for (Quiz q : quizzes) {
+            System.out.println(q);
+        }
+    }
+
+
 //    private void updateCSV() {
 //        // Rewrite the CSV file with the updated question list
 //        CsvIO csvIO = new CsvIO();
@@ -135,4 +83,4 @@
 //        }
 //        csvIO.overwrite("questionbank.csv", titles, data);
 //    }
-//}
+}

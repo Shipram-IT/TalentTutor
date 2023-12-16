@@ -27,24 +27,13 @@ public class Quiz {
     }
 
     public Quiz(String id, enums.Topic topic, enums.Difficulty difficulty, ArrayList<Question> questions) {
-        boolean flag = true;
-        for (Question q : questions) {
-            if (!q.getTopic().equals(topic) || q.getDifficulty().equals(difficulty)){
-                flag = false;
-                break;
-            }
-        }
-        if (flag){
             this.id = id;
             if (Integer.valueOf(id) >= nextId){
                 nextId = Integer.valueOf(id) + 1;
             }
             this.topic = topic;
             this.difficulty = difficulty;
-            this.questions = new ArrayList<>();
-        } else{
-            throw new IllegalArgumentException("Questions don't match");
-        }
+            this.questions = questions;
     }
 
     public void addQuestion(Question question) {

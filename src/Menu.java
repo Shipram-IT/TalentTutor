@@ -200,7 +200,7 @@ public class Menu {
         return options;
     }
 
-    protected static void showMenu(QuizMaster quizMaster, QuestionBank questionBank) {
+    protected static void showMenu(QuizMaster quizMaster, QuestionBank questionBank, QuizBank quizBank) {
         while (true) {
             Menu.showSubMenu(quizMaster);
             int choice = Menu.getRoleChoice();
@@ -260,7 +260,7 @@ public class Menu {
                     break;
                 case 5:
                     // Show all Quizzes
-                    // Implement this based on your requirements
+                    quizBank.showQuizzes();
                     break;
                 case 6:
                     // Remove a Quiz
