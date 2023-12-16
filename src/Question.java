@@ -47,6 +47,10 @@ public class Question {
         return answer;
     }
 
+    public boolean checkAnswer(String answer) {
+        return this.answer.toLowerCase().equals(answer);
+    }
+
     public enums.Difficulty getDifficulty() {
         return difficulty;
     }
