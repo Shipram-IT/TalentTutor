@@ -228,7 +228,8 @@ public class Menu {
                 case 4:
                     // Create Quiz
                     enums.Topic topic = chooseQuestionTopic();
-                    ArrayList<Question> questionByTopic = questionBank.getQuestionByTopic(topic);
+                    enums.Difficulty difficulty = setQuestionDifficulty();
+                    ArrayList<Question> questionByTopic = questionBank.getQuestion(topic, difficulty);
                     ArrayList<Question> selectedQuestions = new ArrayList<>();
                     for (Question question : questionByTopic) {
                         System.out.println(question);
@@ -244,11 +245,18 @@ public class Menu {
                         }
 
                     }
-                    //>>implement method to create the quiz sending this ArrayList <<<
-                    for (Question q: selectedQuestions) {
-                        System.out.println(q);
-
+                    if (!selectedQuestions.isEmpty()) {
+                        try {
+                            Quiz quiz = new Quiz(topic, difficulty, selectedQuestions);
+                            System.out.println("Created quiz: " + quiz);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else {
+                        System.out.println("No questions selected. Quiz creation aborted.");
                     }
+
+
                     break;
                 case 5:
                     // Show all Quizzes

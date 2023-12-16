@@ -61,10 +61,10 @@ public class QuestionBank {
         return null;
     }
 
-    public ArrayList<Question> getQuestionByTopic(enums.Topic topic) {
+    public ArrayList<Question> getQuestion(enums.Topic topic, enums.Difficulty difficulty) {
         ArrayList<Question> questionList = new ArrayList<>();
         for (Question question : questions) {
-            if (question.getTopic().equals(topic)) {
+            if (question.getTopic().equals(topic) && question.getDifficulty().equals(difficulty)) {
                 questionList.add(question);
             }
         }

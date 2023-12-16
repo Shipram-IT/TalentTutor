@@ -79,10 +79,23 @@ class QuizMaster extends Employee {
 }
 
 class RegularEmployee extends Employee {
+
+    ArrayList<QuizAttempt> quizAttempts;
+
     public RegularEmployee(String name) {
         super(name, EmployeeType.REGULAR_EMPLOYEE);
+        this.quizAttempts = new ArrayList<>();
     }
     public RegularEmployee(String id, String name) {
         super(id, name, EmployeeType.REGULAR_EMPLOYEE);
+        this.quizAttempts = new ArrayList<>();
     }
+    public void addQuizAttempt(QuizAttempt quizAttempt){
+        this.quizAttempts.add(quizAttempt);
+    }
+
+    public ArrayList<QuizAttempt> getQuizAttempts(){
+        return this.quizAttempts;
+    }
+
 }
