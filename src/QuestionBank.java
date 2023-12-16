@@ -118,9 +118,11 @@ public class QuestionBank {
                 entry.put("option3", options[2]);
                 entry.put("option4", options[3]);
             } else {
-                // Handle other question types if needed
+                entry.put("option1", " ");
+                entry.put("option2", " ");
+                entry.put("option3", " ");
+                entry.put("option4", " ");
             }
-
             data.add(entry);
         }
         csvIO.overwrite("questionbank.csv", titles, data);

@@ -4,6 +4,7 @@ import enums.QuestionType;
 import java.util.ArrayList;
 import java.util.HashMap;
 public class Question {
+    private static int nextId = 1;
     protected String id;
     protected String body;
     protected String answer;
@@ -11,7 +12,8 @@ public class Question {
     protected enums.QuestionType type;
 
     public Question(String body, String answer, Difficulty difficulty, QuestionType type) {
-        this.id = "0";
+        this.id = String.valueOf(nextId);
+        nextId++;
         this.body = body;
         this.answer = answer;
         this.difficulty = difficulty;
@@ -20,6 +22,9 @@ public class Question {
 
     public Question(String id, String body, String answer, Difficulty difficulty, QuestionType type) {
         this.id = id;
+        if (Integer.valueOf(id) >= nextId){
+            nextId = Integer.valueOf(id) + 1;
+        }
         this.body = body;
         this.answer = answer;
         this.difficulty = difficulty;
@@ -46,6 +51,13 @@ public class Question {
         return type;
     }
 
+    @Override
+    public String toString(){
+        return "id: " + this.id +
+                "; " + this.getClass().getName() +
+                "; difficulty: " + this.difficulty +
+                "; body: " + this.body;
+    }
 }
 class MCQQuestion extends Question {
     protected String[] options = new String[4];

@@ -1,2 +1,7 @@
 id;body;answer;difficulty;type;option1;option2;option3;option4;
-0;A MCQ Question;1;MEDIUM;MCQ;Java;Python;Html;C#;
+1;1;1;EASY;MCQ;;1;1;1;
+2;1;1;EASY;FillInBlank; ; ; ; ;
+3;1;1;EASY;TrueFalse; ; ; ; ;
+3;1;1;EASY;MCQ;1;1;1;1;
+4;1;1;EASY;FillInBlank; ; ; ; ;
+5;1;1;EASY;MCQ;1;1;1;1;

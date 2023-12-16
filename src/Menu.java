@@ -161,12 +161,10 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         ArrayList<String> options = new ArrayList<>();
 
-        System.out.println("Enter MCQ Options (Enter 'done' when finished): ");
-        while (true) {
+        System.out.println("Enter MCQ Options: ");
+        for (int i = 1; i <= 4; i++) {
+            System.out.print("Option " + i + ": " );
             String option = scanner.nextLine();
-            if (option.equals("done")) {
-                break;
-            }
             options.add(option);
         }
 
