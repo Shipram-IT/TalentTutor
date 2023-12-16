@@ -1,3 +1,5 @@
+import enums.Topic;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,12 +19,12 @@ public class QuizBank {
             System.out.println("No quiz records found. Add must quizzed to the bank.");
         } else{
             for (File f : files){
-                populateQuestionsFromCSV(f, questionBank);
+                populateDataFromCSV(f, questionBank);
             }
         }
     }
 
-    private void populateQuestionsFromCSV(File file, QuestionBank questionBank) {
+    private void populateDataFromCSV(File file, QuestionBank questionBank) {
         String[] fields = {"questionId"};
         String[] fileNameParts = file.toString().replace(".csv", "").replace("csv\\quiz\\","").split("_");
         CsvIO csvIO = new CsvIO();
@@ -51,9 +53,21 @@ public class QuizBank {
         }
     }
 
-    public void addNewQuiz(Quiz quiz){
-        quizzes.add(quiz);
-        updateCSV(quiz);
+    public void showFilteredQuizzes(Topic topic) {
+        for (Quiz q : quizzes) {
+            if (q.getTopic() == topic) {
+                System.out.println(q);
+            }
+        }
+    }
+
+    public Quiz getQuizById(String quizId) {
+        for (Quiz quiz : quizzes) {
+            if (quiz.getId().equals(quizId)) {
+                return quiz;
+            }
+        }
+        return null; // Quiz with the given ID not found
     }
 
     public boolean deleteCSV(String filePath) {
@@ -96,18 +110,23 @@ public class QuizBank {
         }
     }
 
+    public void addNewQuiz(Quiz quiz){
+        quizzes.add(quiz);
+        updateCSV(quiz);
+    }
+
     private void updateCSV(Quiz quiz) {
             // Create the CSV file path based on quiz ID, topic, and difficulty
             String filePath = "csv/quiz/" + quiz.getId() + "_" + quiz.getTopic().name() + "_" + quiz.getDifficulty().name() + ".csv";
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
                 // Write the header
-                writer.write("questionId");
+                //System.out.println(quiz.getQuestions());
+                writer.write("questionId;");
                 writer.newLine();
-
                 // Write each question ID to the CSV file
                 for (Question question : quiz.getQuestions()) {
-                    writer.write(question.getId());
+                    writer.write(question.getId() + ";");
                     writer.newLine();
                 }
 

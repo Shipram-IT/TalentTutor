@@ -1,10 +1,12 @@
+import interfaces.common.PopulateCollectionFromCSV;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-public class Company {
+public class Company implements PopulateCollectionFromCSV {
     private String name;
     private ArrayList<Employee> employees;
 
@@ -16,7 +18,7 @@ public class Company {
             System.out.println("No employee records found. Create a manager");
             createEmployee("manager");
         }
-        populateEmployeesFromCSV();
+        populateDataFromCSV();
 //        showEmployeeList();
     }
 
@@ -24,8 +26,7 @@ public class Company {
         File file = new File("employee.csv");
         return file.exists();
     }
-
-    private void populateEmployeesFromCSV() {
+    public void populateDataFromCSV() {
         if (csvFileExists()) {
             String[] fields = {"id", "name", "type"};
             CsvIO csvIO = new CsvIO();
@@ -34,7 +35,7 @@ public class Company {
             if(!hasManager()){
                 System.out.println("No manager found. Please enter details to create a manager:");
                 createEmployee("manager");
-                populateEmployeesFromCSV();
+                populateDataFromCSV();
             }
         }
     }
@@ -81,11 +82,11 @@ public class Company {
             default:
                 System.out.println("Invalid role.");
         }
-        populateEmployeesFromCSV();
+        populateDataFromCSV();
     }
 
     public void showEmployeeList() {
-        populateEmployeesFromCSV();
+        populateDataFromCSV();
         System.out.println("Employee List for " + name + ":");
         for (Employee employee : employees) {
             System.out.println(employee);
@@ -113,7 +114,7 @@ public class Company {
         } else {
             System.out.println("Employee with ID " + id + " not found.");
         }
-        populateEmployeesFromCSV();
+        populateDataFromCSV();
     }
     private void updateCSV() {
         // Rewrite the CSV file with the updated employee list

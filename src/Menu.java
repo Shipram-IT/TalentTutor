@@ -243,7 +243,6 @@ public class Menu {
                         } else{
                             selectedQuestions.add(questionBank.getQuestionById(id));
                         }
-
                     }
                     if (!selectedQuestions.isEmpty()) {
                         try {
@@ -308,15 +307,25 @@ public class Menu {
         }
     }
 
-    protected static void showMenu(Company company, RegularEmployee regularEmployee) {
+    protected static void showMenu(Company company, RegularEmployee regularEmployee, QuizBank quizBank) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
             Menu.showSubMenu(regularEmployee);
             int choice = Menu.getRoleChoice();
             switch (choice) {
                 case 1:
                     // Start a Quiz
-                    // Implement this based on your requirements
-                    break;
+                    Topic topic = chooseQuestionTopic();
+                    quizBank.showFilteredQuizzes(topic);
+                    System.out.println("Enter the ID of the quiz you want to start:");
+                    String quizId = scanner.nextLine();
+                    Quiz selectedQuiz = quizBank.getQuizById(quizId);
+
+                    if (selectedQuiz != null) {
+                        regularEmployee.startQuiz(selectedQuiz);
+                    } else {
+                        System.out.println("Quiz not found. Please enter a valid quiz ID.");
+                    }
                 case 2:
                     // See Previous Quiz Status
                     // Implement this based on your requirements

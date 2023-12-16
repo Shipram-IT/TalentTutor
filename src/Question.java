@@ -4,7 +4,7 @@ import enums.Topic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-public class Question {
+public abstract class Question {
     private static int nextId = 1;
     protected String id;
     protected String body;
@@ -45,6 +45,10 @@ public class Question {
 
     public String getAnswer() {
         return answer;
+    }
+
+    public boolean checkAnswer(String answer) {
+        return this.answer.toLowerCase().equals(answer);
     }
 
     public enums.Difficulty getDifficulty() {
