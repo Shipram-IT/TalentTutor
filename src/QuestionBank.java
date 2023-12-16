@@ -53,14 +53,14 @@ public class QuestionBank {
         }
     }
 
-//    public Question getQuestionById(String id) {
-//        for (Question question : questions) {
-//            if (question.getId().equals(id)) {
-//                return question;
-//            }
-//        }
-//        return null;
-//    }
+    public Question getQuestionById(String id) {
+        for (Question question : questions) {
+            if (question.getId().equals(id)) {
+                return question;
+            }
+        }
+        return null;
+    }
 
     protected void addQuestion(Question question) {
         questions.add(question);
@@ -85,18 +85,17 @@ public class QuestionBank {
         return this.questions;
     }
 
-//    public void removeQuestion(String id) {
-//        Question questionToRemove = getQuestionById(id);
-//
-//        if (questionToRemove != null) {
-//            questions.remove(questionToRemove);
-//            updateCSV();
-//            System.out.println("Question with ID " + id + " removed successfully.");
-//        } else {
-//            System.out.println("Question with ID " + id + " not found.");
-//        }
-//        populateQuestionsFromCSV();
-//    }
+    public void removeQuestion(String id) {
+        Question questionToRemove = getQuestionById(id);
+
+        if (questionToRemove != null) {
+            questions.remove(questionToRemove);
+            updateCSV();
+            System.out.println("Question with ID " + id + " removed successfully.");
+        } else {
+            System.out.println("Question with ID " + id + " not found.");
+        }
+    }
 
     private void updateCSV() {
         // Rewrite the CSV file with the updated question list

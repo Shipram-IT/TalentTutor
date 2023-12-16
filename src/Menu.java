@@ -179,17 +179,22 @@ public class Menu {
                 case 1:
                     // Create Question
                     Menu.showCreateQuestionSubMenu(questionBank);
-
-                    // Implement this based on your requirements
                     break;
                 case 2:
                     // Show all Questions
                     questionBank.showQuestionList();
-
                     break;
                 case 3:
                     // Remove a Question
-                    // Implement this based on your requirements
+                    questionBank.showQuestionList();
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.print("Enter the question ID you want to remove or enter 'q' to exit: ");
+                    String questionId = scanner.nextLine();
+                    if (questionId.equalsIgnoreCase("Q")){
+                        break;
+                    } else {
+                        questionBank.removeQuestion(questionId);
+                    }
                     break;
                 case 4:
                     // Create Quiz
