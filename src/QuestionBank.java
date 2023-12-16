@@ -1,8 +1,10 @@
+import interfaces.common.PopulateCollectionFromCSV;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-public class QuestionBank {
+public class QuestionBank implements PopulateCollectionFromCSV {
     private ArrayList<Question> questions;
 
     public QuestionBank(String name) {
@@ -11,7 +13,7 @@ public class QuestionBank {
         if (!csvFileExists()) {
             System.out.println("No question records found. Add must questions to the bank.");
         } else{
-            populateQuestionsFromCSV();
+            populateDataFromCSV();
         }
     }
 
@@ -20,7 +22,7 @@ public class QuestionBank {
         return new java.io.File("questionbank.csv").exists();
     }
 
-    private void populateQuestionsFromCSV() {
+    public void populateDataFromCSV() {
         if (csvFileExists()) {
             String[] fields = {"id", "topic","body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
             CsvIO csvIO = new CsvIO();

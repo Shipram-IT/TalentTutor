@@ -17,12 +17,12 @@ public class QuizBank {
             System.out.println("No quiz records found. Add must quizzed to the bank.");
         } else{
             for (File f : files){
-                populateQuestionsFromCSV(f, questionBank);
+                populateDataFromCSV(f, questionBank);
             }
         }
     }
 
-    private void populateQuestionsFromCSV(File file, QuestionBank questionBank) {
+    private void populateDataFromCSV(File file, QuestionBank questionBank) {
         String[] fields = {"questionId"};
         String[] fileNameParts = file.toString().replace(".csv", "").replace("csv\\quiz\\","").split("_");
         CsvIO csvIO = new CsvIO();
