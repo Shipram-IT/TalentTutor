@@ -3,6 +3,9 @@ public class Main {
     public static void main(String[] args) {
         // Create a company and show the employee list
         Company company = new Company("MyCompany");
+        QuestionBank questionBank = new QuestionBank("MyQuestionBank");
+        QuizBank quizBank = new QuizBank(questionBank);
+
         boolean programRunning = true;
         while (programRunning){
             String employeeId = Menu.getEmployeeId();
@@ -20,11 +23,11 @@ public class Main {
                 }
                 else if (employee instanceof QuizMaster) {
                     QuizMaster quizMaster = (QuizMaster) employee;
-                    Menu.showMenu(company, quizMaster);
+                    Menu.showMenu(quizMaster, questionBank, quizBank);
                 }
                 else if (employee instanceof RegularEmployee) {
                     RegularEmployee regularEmployee = (RegularEmployee) employee;
-                    Menu.showMenu(company, regularEmployee);
+                    Menu.showMenu(company, regularEmployee, quizBank);
                 }
                 else{
                     System.out.println("Error");

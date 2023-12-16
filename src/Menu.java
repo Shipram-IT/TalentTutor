@@ -1,4 +1,7 @@
+import java.util.ArrayList;
 import java.util.Scanner;
+import enums.Difficulty;
+import enums.Topic;
 
 public class Menu {
 
@@ -112,30 +115,150 @@ public class Menu {
         }
     }
 
-    protected static void showMenu(Company company, QuizMaster quizMaster) {
+    public static int chooseQuestionTypeChoice() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Create Question Menu:");
+        System.out.println("1) MCQ Question");
+        System.out.println("2) Fill in the Blank Question");
+        System.out.println("3) True/False Question");
+        return scanner.nextInt();
+    }
+
+    public static String defineQuestionBody() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Question Body: ");
+        return scanner.nextLine();
+    }
+
+    public static String defineQuestionAnswer() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Question Answer: ");
+        return scanner.nextLine();
+    }
+
+    public static enums.Topic chooseQuestionTopic(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose Topic: ");
+        System.out.println("1) LaborLaw");
+        System.out.println("2) GenerativeAi");
+        System.out.println("3) Cybersecurity");
+        System.out.println("4) Ethics");
+        System.out.println("5) Accounting");
+        System.out.println("6) CustomerOrientation");
+        System.out.print("Enter your choice or any other number to quit: ");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                return enums.Topic.LaborLaw;
+            case 2:
+                return enums.Topic.GenerativeAi;
+            case 3:
+                return enums.Topic.Cybersecurity;
+            case 4:
+                return enums.Topic.Ethics;
+            case 5:
+                return enums.Topic.Accounting;
+            case 6:
+                return enums.Topic.CustomerOrientation;
+            default:
+                return null;
+        }
+    }
+
+    public static enums.Difficulty setQuestionDifficulty() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose Question Difficulty: ");
+        System.out.println("1) Easy");
+        System.out.println("2) Medium");
+        System.out.println("3) Hard");
+        System.out.print("Enter your choice: ");
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                return enums.Difficulty.EASY;
+            case 2:
+                return enums.Difficulty.MEDIUM;
+            case 3:
+                return enums.Difficulty.HARD;
+            default:
+                return Difficulty.EASY;
+        }
+    }
+
+    public static ArrayList<String> setMCQOptions() {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<String> options = new ArrayList<>();
+
+        System.out.println("Enter MCQ Options: ");
+        for (int i = 1; i <= 4; i++) {
+            System.out.print("Option " + i + ": " );
+            String option = scanner.nextLine();
+            options.add(option);
+        }
+
+        return options;
+    }
+
+    protected static void showMenu(QuizMaster quizMaster, QuestionBank questionBank, QuizBank quizBank) {
         while (true) {
             Menu.showSubMenu(quizMaster);
             int choice = Menu.getRoleChoice();
             switch (choice) {
                 case 1:
                     // Create Question
-                    // Implement this based on your requirements
+                    Menu.showCreateQuestionSubMenu(questionBank);
                     break;
                 case 2:
                     // Show all Questions
-                    // Implement this based on your requirements
+                    questionBank.showQuestionList();
                     break;
                 case 3:
                     // Remove a Question
-                    // Implement this based on your requirements
+                    questionBank.showQuestionList();
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.print("Enter the question ID you want to remove or enter 'q' to exit: ");
+                    String questionId = scanner.nextLine();
+                    if (questionId.equalsIgnoreCase("Q")){
+                        break;
+                    } else {
+                        questionBank.removeQuestion(questionId);
+                    }
                     break;
                 case 4:
                     // Create Quiz
-                    // Implement this based on your requirements
+                    enums.Topic topic = chooseQuestionTopic();
+                    enums.Difficulty difficulty = setQuestionDifficulty();
+                    ArrayList<Question> questionByTopic = questionBank.getQuestion(topic, difficulty);
+                    ArrayList<Question> selectedQuestions = new ArrayList<>();
+                    for (Question question : questionByTopic) {
+                        System.out.println(question);
+                    }
+                    while (true){
+                        System.out.println("Enter the Id of the question you want to have in your quiz or enter -1 to finish");
+                        Scanner keyboard = new Scanner(System.in);
+                        String id = keyboard.nextLine();
+                        if (id.equals("-1")){
+                            break;
+                        } else{
+                            selectedQuestions.add(questionBank.getQuestionById(id));
+                        }
+                    }
+                    if (!selectedQuestions.isEmpty()) {
+                        try {
+                            Quiz quiz = new Quiz(topic, difficulty, selectedQuestions);
+                            System.out.println("Created quiz: " + quiz);
+                            quizBank.addNewQuiz(quiz);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else {
+                        System.out.println("No questions selected. Quiz creation aborted.");
+                    }
                     break;
                 case 5:
                     // Show all Quizzes
-                    // Implement this based on your requirements
+                    quizBank.showQuizzes();
                     break;
                 case 6:
                     // Remove a Quiz
@@ -149,16 +272,57 @@ public class Menu {
             }
         }
     }
+    private static void showCreateQuestionSubMenu(QuestionBank questionBank) {
+        while (true) {
+            enums.Topic topic = Menu.chooseQuestionTopic();
+            if (topic == null){
+                System.out.println("Exiting Create Question Menu");
+                return;
+            }
+            String body = Menu.defineQuestionBody();
+            enums.Difficulty difficulty = Menu.setQuestionDifficulty();
+            String answer;
+            int choice = Menu.chooseQuestionTypeChoice();
+            switch (choice) {
+                case 1:
+                    ArrayList<String> options = Menu.setMCQOptions();
+                    answer = Menu.defineQuestionAnswer();
+                    questionBank.addQuestion(new MCQQuestion(body, answer, difficulty, options.toArray(new String[0]), topic));
+                    break;
+                case 2:
+                    answer = Menu.defineQuestionAnswer();
+                    questionBank.addQuestion(new FillInBlank(body, answer, difficulty, topic));
+                    break;
+                case 3:
+                    answer = Menu.defineQuestionAnswer();
+                    questionBank.addQuestion(new TrueFalse(body, answer, difficulty, topic));
+                    break;
 
-    protected static void showMenu(Company company, RegularEmployee regularEmployee) {
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+    }
+
+    protected static void showMenu(Company company, RegularEmployee regularEmployee, QuizBank quizBank) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
             Menu.showSubMenu(regularEmployee);
             int choice = Menu.getRoleChoice();
             switch (choice) {
                 case 1:
                     // Start a Quiz
-                    // Implement this based on your requirements
-                    break;
+                    Topic topic = chooseQuestionTopic();
+                    quizBank.showFilteredQuizzes(topic);
+                    System.out.println("Enter the ID of the quiz you want to start:");
+                    String quizId = scanner.nextLine();
+                    Quiz selectedQuiz = quizBank.getQuizById(quizId);
+
+                    if (selectedQuiz != null) {
+                        regularEmployee.startQuiz(selectedQuiz);
+                    } else {
+                        System.out.println("Quiz not found. Please enter a valid quiz ID.");
+                    }
                 case 2:
                     // See Previous Quiz Status
                     // Implement this based on your requirements

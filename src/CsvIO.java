@@ -33,7 +33,7 @@ public class CsvIO {
         return data;
     }
 
-    public void writeToCSV(String filename, String[] columnTitleList, String[] columnValueList) {
+    public static void writeToCSV(String filename, String[] columnTitleList, String[] columnValueList) {
         try {
             File file = new File(filename);
             boolean isNewFile = !file.exists() || file.length() == 0;
@@ -82,7 +82,7 @@ public class CsvIO {
         }
     }
 
-    private String getLastInsertedValue(String filename, int columnIndex) {
+    private static String getLastInsertedValue(String filename, int columnIndex) {
         String lastValue = "";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -129,5 +129,16 @@ public class CsvIO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static File[] loadFiles(String folderPath) {
+        File folder = new File(folderPath);
+        // Check if the folder exists
+        if (!folder.exists() || !folder.isDirectory()) {
+            System.out.println("Invalid folder path: " + folder.getName());
+            return null;
+        }
+        // Get a list of all files in the folder
+        return folder.listFiles();
     }
 }
