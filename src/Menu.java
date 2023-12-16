@@ -200,10 +200,6 @@ public class Menu {
         return options;
     }
 
-    public static void removeQuiz() {
-
-    }
-
     protected static void showMenu(QuizMaster quizMaster, QuestionBank questionBank, QuizBank quizBank) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
