@@ -27,3 +27,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Others ###
+!**/src/employees.csv
+employee.csv
+.idea/misc.xml

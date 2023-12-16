@@ -1,17 +1,42 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        // Create a company and show the employee list
+        Company company = new Company("MyCompany");
+        QuestionBank questionBank = new QuestionBank("MyQuestionBank");
+        QuizBank quizBank = new QuizBank(questionBank);
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
-
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+        boolean programRunning = true;
+        while (programRunning){
+            String employeeId = Menu.getEmployeeId();
+            if (employeeId.equalsIgnoreCase("Q")){
+                System.out.println("Thanks for accessing TalentTutor. Program closing...");
+                break;
+            }
+            Employee employee = company.getEmployeeById(employeeId);
+            if (employee != null) {
+                String employeeType = employee.getClass().getName();
+                System.out.printf("Welcome, %s (%s)\n", employee.name, employeeType);
+                if (employee instanceof Manager) {
+                    Manager manager = (Manager) employee;
+                    Menu.showMenu(company, manager);
+                }
+                else if (employee instanceof QuizMaster) {
+                    QuizMaster quizMaster = (QuizMaster) employee;
+                    Menu.showMenu(quizMaster, questionBank, quizBank);
+                }
+                else if (employee instanceof RegularEmployee) {
+                    RegularEmployee regularEmployee = (RegularEmployee) employee;
+                    Menu.showMenu(company, regularEmployee, quizBank);
+                }
+                else{
+                    System.out.println("Error");
+                }
+            } else {
+                Menu.showAccessDenied();
+            }
         }
+
     }
+
 }

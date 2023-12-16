@@ -1,3 +1,5 @@
+package enums;
+
 /**
  * Enum for employee types
  */

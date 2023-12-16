@@ -1,74 +1,64 @@
 import java.util.ArrayList;
-import java.util.List;
 
-// Class for Quiz
 public class Quiz {
-    private final String quizNumber;
-    private final List<Question> quizQuestions;
-    private final List<QuizResult> quizResults;  // Composition
-    private final Department department;
+    private static int nextId = 1;
+    protected String id;
+    private enums.Topic topic;
+    private enums.Difficulty difficulty;
+    private ArrayList<Question> questions;
 
-    /**
-     * Constructor for Quiz.
-     *
-     * @param quizNumber    The unique identifier for the quiz.
-     * @param quizQuestions The list of questions in the quiz.
-     * @param department    The department associated with the quiz.
-     */
-    public Quiz(String quizNumber, List<Question> quizQuestions, Department department) {
-        this.quizNumber = quizNumber;
-        this.quizQuestions = quizQuestions;
-        this.quizResults = new ArrayList<>();
-        this.department = department;
+    public Quiz(enums.Topic topic, enums.Difficulty difficulty, ArrayList<Question> questions) {
+        boolean flag = true;
+        for (Question q : questions) {
+            if (!q.getTopic().equals(topic) || !q.getDifficulty().equals(difficulty)){
+                flag = false;
+                break;
+            }
+        }
+        if (flag){
+            this.id = String.valueOf(nextId);
+            nextId++;
+            this.topic = topic;
+            this.difficulty = difficulty;
+            this.questions = questions;
+        } else{
+            throw new IllegalArgumentException("Questions don't match");
+        }
     }
 
-    /**
-     * Method to add a quiz result to the quiz.
-     *
-     * @param employee The employee who took the quiz.
-     * @param score    The score achieved in the quiz.
-     */
-    public void addQuizResult(Employee employee, int score) {
-        QuizResult result = new QuizResult(employee, score);
-        quizResults.add(result);
+    public Quiz(String id, enums.Topic topic, enums.Difficulty difficulty, ArrayList<Question> questions) {
+            this.id = id;
+            if (Integer.valueOf(id) >= nextId){
+                nextId = Integer.valueOf(id) + 1;
+            }
+            this.topic = topic;
+            this.difficulty = difficulty;
+            this.questions = questions;
     }
 
-    // Other methods for quiz functionality
-    // ...
-
-    /**
-     * Getter method for retrieving the unique identifier of the quiz.
-     *
-     * @return The quiz number.
-     */
-    public String getQuizNumber() {
-        return quizNumber;
+    public void addQuestion(Question question) {
+        // Add question to the quiz
     }
 
-    /**
-     * Getter method for retrieving the list of questions in the quiz.
-     *
-     * @return The list of questions in the quiz.
-     */
-    public List<Question> getQuizQuestions() {
-        return quizQuestions;
+    public ArrayList<Question> getQuestions(){
+        return this.questions;
     }
 
-    /**
-     * Getter method for retrieving the list of quiz results associated with the quiz.
-     *
-     * @return The list of quiz results.
-     */
-    public List<QuizResult> getQuizResults() {
-        return quizResults;
+    @Override
+    public String toString(){
+        return "id : "+ this.id +
+                "; topic: " + this.topic +
+                "; difficulty: " + this.difficulty;
     }
 
-    /**
-     * Getter method for retrieving the department associated with the quiz.
-     *
-     * @return The department of the quiz.
-     */
-    public Department getDepartment() {
-        return department;
+    public String getId(){
+        return this.id;
     }
+    public enums.Topic getTopic(){
+        return this.topic;
+    }
+    public enums.Difficulty getDifficulty(){
+        return this.difficulty;
+    }
+
 }

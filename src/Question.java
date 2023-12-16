@@ -1,65 +1,109 @@
-// Abstract class for representing a Question
+import enums.Difficulty;
+import enums.QuestionType;
+import enums.Topic;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 public abstract class Question {
-    private final String questionBody;
-    private final String answer;
-    private final int difficultyLevel;
-    private final Department department;
+    private static int nextId = 1;
+    protected String id;
+    protected String body;
+    protected String answer;
+    protected enums.Topic topic;
+    protected enums.Difficulty difficulty;
+    protected enums.QuestionType type;
 
-    /**
-     * Constructor for Question.
-     *
-     * @param questionBody    The body of the question.
-     * @param answer          The answer to the question.
-     * @param difficultyLevel The difficulty level of the question.
-     * @param department      The department associated with the question.
-     */
-    public Question(String questionBody, String answer, int difficultyLevel, Department department) {
-        this.questionBody = questionBody;
+    public Question(String body, String answer, Difficulty difficulty, QuestionType type, enums.Topic topic) {
+        this.id = String.valueOf(nextId);
+        nextId++;
+        this.body = body;
         this.answer = answer;
-        this.difficultyLevel = difficultyLevel;
-        this.department = department;
+        this.difficulty = difficulty;
+        this.type = type;
+        this.topic = topic;
     }
 
-    /**
-     * Abstract method to get the question type.
-     *
-     * @return The question type.
-     */
-    public abstract String getQuestionType();
-
-    /**
-     * Getter method for the question body.
-     *
-     * @return The question body.
-     */
-    public String getQuestionBody() {
-        return questionBody;
+    public Question(String id, String body, String answer, Difficulty difficulty, QuestionType type, enums.Topic topic ) {
+        this.id = id;
+        if (Integer.valueOf(id) >= nextId){
+            nextId = Integer.valueOf(id) + 1;
+        }
+        this.body = body;
+        this.answer = answer;
+        this.difficulty = difficulty;
+        this.type = type;
+        this.topic = topic;
     }
 
-    /**
-     * Getter method for the answer.
-     *
-     * @return The answer.
-     */
+    public String getId(){
+        return this.id;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
     public String getAnswer() {
         return answer;
     }
 
-    /**
-     * Getter method for the difficulty level.
-     *
-     * @return The difficulty level.
-     */
-    public int getDifficultyLevel() {
-        return difficultyLevel;
+    public boolean checkAnswer(String answer) {
+        return this.answer.toLowerCase().equals(answer);
     }
 
-    /**
-     * Getter method for the department.
-     *
-     * @return The department.
-     */
-    public Department getDepartment() {
-        return department;
+    public enums.Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public enums.QuestionType getType() {
+        return type;
+    }
+
+    public enums.Topic getTopic(){
+        return topic;
+    }
+
+    @Override
+    public String toString(){
+        return "id: " + this.id +
+                "; topic: " + this.topic +
+                "; " + this.getClass().getName() +
+                "; difficulty: " + this.difficulty +
+                "; body: " + this.body;
+    }
+}
+class MCQQuestion extends Question {
+    protected String[] options = new String[4];
+
+    public MCQQuestion(String body, String answer, enums.Difficulty difficulty, String[] options, enums.Topic topic ) {
+        super(body, answer, difficulty, QuestionType.MCQ, topic);
+        this.options = options;
+    }
+
+    public MCQQuestion(String id, String body, String answer, Difficulty difficulty, String[] options, enums.Topic topic ) {
+        super(id, body, answer, difficulty, QuestionType.MCQ, topic);
+        this.options = options;
+   }
+
+    public String[] getOptions() {
+        return options;
+    }
+}
+class FillInBlank extends Question{
+    public FillInBlank(String body, String answer, Difficulty difficulty, enums.Topic topic) {
+        super(body, answer, difficulty, QuestionType.FillInBlank, topic);
+    }
+
+    public FillInBlank(String id, String body, String answer, Difficulty difficulty, enums.Topic topic) {
+        super(id, body, answer, difficulty, QuestionType.FillInBlank, topic );
+    }
+}
+class TrueFalse extends Question{
+    public TrueFalse(String body, String answer, Difficulty difficulty, enums.Topic topic) {
+        super(body, answer, difficulty, QuestionType.TrueFalse, topic);
+    }
+
+    public TrueFalse(String id, String body, String answer, Difficulty difficulty, enums.Topic topic ) {
+        super(id, body, answer, difficulty, QuestionType.TrueFalse, topic);
     }
 }
