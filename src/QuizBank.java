@@ -56,6 +56,45 @@ public class QuizBank {
         updateCSV(quiz);
     }
 
+    public boolean deleteCSV(String filePath) {
+        // Create a File object with the file path
+        File fileToDelete = new File(filePath);
+
+        // Delete the file
+        return fileToDelete.delete();
+    }
+
+    public void removeQuiz(String quizId) {
+        // Find the quiz with the given quizId
+        Quiz quizToRemove = null;
+        for (Quiz quiz : quizzes) {
+            if (quiz.getId().equals(quizId)) {
+                quizToRemove = quiz;
+                break;
+            }
+        }
+
+        if (quizToRemove != null) {
+            // Remove the quiz from the list
+            quizzes.remove(quizToRemove);
+
+            // Create the CSV file path based on quiz ID, topic, and difficulty
+            String filePath = "csv/quiz/" + quizToRemove.getId() + "_" + quizToRemove.getTopic().name() + "_" + quizToRemove.getDifficulty().name() + ".csv";
+
+            try {
+                // Delete the corresponding CSV file
+                if (deleteCSV(filePath)) {
+                    System.out.println("Quiz removed successfully!");
+                } else {
+                    System.out.println("Could not delete quiz!");
+                }
+            } catch (Exception e) {
+                System.err.println("Error removing quiz: " + e.getMessage());
+            }
+        } else {
+            System.err.println("Quiz with ID " + quizId + " not found.");
+        }
+    }
 
     private void updateCSV(Quiz quiz) {
             // Create the CSV file path based on quiz ID, topic, and difficulty

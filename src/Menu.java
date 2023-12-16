@@ -200,7 +200,12 @@ public class Menu {
         return options;
     }
 
+    public static void removeQuiz() {
+
+    }
+
     protected static void showMenu(QuizMaster quizMaster, QuestionBank questionBank, QuizBank quizBank) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
             Menu.showSubMenu(quizMaster);
             int choice = Menu.getRoleChoice();
@@ -216,7 +221,6 @@ public class Menu {
                 case 3:
                     // Remove a Question
                     questionBank.showQuestionList();
-                    Scanner scanner = new Scanner(System.in);
                     System.out.print("Enter the question ID you want to remove or enter 'q' to exit: ");
                     String questionId = scanner.nextLine();
                     if (questionId.equalsIgnoreCase("Q")){
@@ -264,6 +268,9 @@ public class Menu {
                 case 6:
                     // Remove a Quiz
                     // Implement this based on your requirements
+                    System.out.println("Enter Quiz Id of quiz you want to remove: ");
+                    String quizId = scanner.nextLine();
+                    quizBank.removeQuiz(quizId);
                     break;
                 case 7:
                     System.out.println("Exiting Quiz Master Menu");
