@@ -19,12 +19,12 @@ public class QuizBank {
             System.out.println("No quiz records found. Add must quizzed to the bank.");
         } else{
             for (File f : files){
-                populateQuestionsFromCSV(f, questionBank);
+                populateDataFromCSV(f, questionBank);
             }
         }
     }
 
-    private void populateQuestionsFromCSV(File file, QuestionBank questionBank) {
+    private void populateDataFromCSV(File file, QuestionBank questionBank) {
         String[] fields = {"questionId"};
         String[] fileNameParts = file.toString().replace(".csv", "").replace("csv\\quiz\\","").split("_");
         CsvIO csvIO = new CsvIO();
@@ -81,12 +81,12 @@ public class QuizBank {
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
                 // Write the header
-                writer.write("questionId");
+                //System.out.println(quiz.getQuestions());
+                writer.write("questionId;");
                 writer.newLine();
-
                 // Write each question ID to the CSV file
                 for (Question question : quiz.getQuestions()) {
-                    writer.write(question.getId());
+                    writer.write(question.getId() + ";");
                     writer.newLine();
                 }
 

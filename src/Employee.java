@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Employee {
+public abstract class Employee {
     protected String id;
     protected String name;
     protected EmployeeType type;

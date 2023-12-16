@@ -20,7 +20,7 @@ public class Quiz {
             nextId++;
             this.topic = topic;
             this.difficulty = difficulty;
-            this.questions = new ArrayList<>();
+            this.questions = questions;
         } else{
             throw new IllegalArgumentException("Questions don't match");
         }

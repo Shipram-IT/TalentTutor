@@ -243,7 +243,6 @@ public class Menu {
                         } else{
                             selectedQuestions.add(questionBank.getQuestionById(id));
                         }
-
                     }
                     if (!selectedQuestions.isEmpty()) {
                         try {
