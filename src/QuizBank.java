@@ -1,4 +1,7 @@
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,11 +24,7 @@ public class QuizBank {
 
     private void populateQuestionsFromCSV(File file, QuestionBank questionBank) {
         String[] fields = {"questionId"};
-        //file structure [quizID_subject_difficulty]
         String[] fileNameParts = file.toString().replace(".csv", "").replace("csv\\quiz\\","").split("_");
-        //System.out.println(fileNameParts[0] +
-        //        " " + enums.Topic.valueOf(fileNameParts[1]) +
-        //        " " +  enums.Difficulty.valueOf(fileNameParts[2]));
         CsvIO csvIO = new CsvIO();
         ArrayList<HashMap<String, String>> data = csvIO.readFromCSV(file.getAbsolutePath(), fields);
         ArrayList<Question> questionsInQuiz = new ArrayList<>();
@@ -52,35 +51,30 @@ public class QuizBank {
         }
     }
 
+    public void addNewQuiz(Quiz quiz){
+        quizzes.add(quiz);
+        updateCSV(quiz);
+    }
 
-//    private void updateCSV() {
-//        // Rewrite the CSV file with the updated question list
-//        CsvIO csvIO = new CsvIO();
-//        String[] titles = {"id", "topic","body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
-//        ArrayList<HashMap<String, String>> data = new ArrayList<>();
-//        for (Question question : questions) {
-//            LinkedHashMap<String, String> entry = new LinkedHashMap<>();
-//            entry.put("id", question.getId());
-//            entry.put("topic", question.getTopic().name());
-//            entry.put("body", question.getBody());
-//            entry.put("answer", question.getAnswer());
-//            entry.put("difficulty", question.getDifficulty().name());
-//            entry.put("type", question.getType().name());
-//
-//            if (question instanceof MCQQuestion) {
-//                String[] options = ((MCQQuestion) question).getOptions();
-//                entry.put("option1", options[0]);
-//                entry.put("option2", options[1]);
-//                entry.put("option3", options[2]);
-//                entry.put("option4", options[3]);
-//            } else {
-//                entry.put("option1", "-");
-//                entry.put("option2", "-");
-//                entry.put("option3", "-");
-//                entry.put("option4", "-");
-//            }
-//            data.add(entry);
-//        }
-//        csvIO.overwrite("questionbank.csv", titles, data);
-//    }
+
+    private void updateCSV(Quiz quiz) {
+            // Create the CSV file path based on quiz ID, topic, and difficulty
+            String filePath = "csv/quiz/" + quiz.getId() + "_" + quiz.getTopic().name() + "_" + quiz.getDifficulty().name() + ".csv";
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                // Write the header
+                writer.write("questionId");
+                writer.newLine();
+
+                // Write each question ID to the CSV file
+                for (Question question : quiz.getQuestions()) {
+                    writer.write(question.getId());
+                    writer.newLine();
+                }
+
+                System.out.println("Quiz saved to " + filePath + " successfully!");
+            } catch (IOException e) {
+                System.out.println("Error saving quiz to CSV: " + e.getMessage());
+            }
+    }
 }

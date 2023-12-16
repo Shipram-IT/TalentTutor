@@ -249,14 +249,13 @@ public class Menu {
                         try {
                             Quiz quiz = new Quiz(topic, difficulty, selectedQuestions);
                             System.out.println("Created quiz: " + quiz);
+                            quizBank.addNewQuiz(quiz);
                         } catch (IllegalArgumentException e) {
                             System.out.println(e.getMessage());
                         }
                     } else {
                         System.out.println("No questions selected. Quiz creation aborted.");
                     }
-
-
                     break;
                 case 5:
                     // Show all Quizzes

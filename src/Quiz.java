@@ -50,4 +50,15 @@ public class Quiz {
                 "; topic: " + this.topic +
                 "; difficulty: " + this.difficulty;
     }
+
+    public String getId(){
+        return this.id;
+    }
+    public enums.Topic getTopic(){
+        return this.topic;
+    }
+    public enums.Difficulty getDifficulty(){
+        return this.difficulty;
+    }
+
 }
