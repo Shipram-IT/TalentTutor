@@ -61,6 +61,16 @@ public class QuestionBank {
         return null;
     }
 
+    public ArrayList<Question> getQuestionByTopic(enums.Topic topic) {
+        ArrayList<Question> questionList = new ArrayList<>();
+        for (Question question : questions) {
+            if (question.getTopic().equals(topic)) {
+                questionList.add(question);
+            }
+        }
+        return questionList;
+    }
+
     protected void addQuestion(Question question) {
         questions.add(question);
         updateCSV();

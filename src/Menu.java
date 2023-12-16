@@ -138,7 +138,7 @@ public class Menu {
 
     public static enums.Topic chooseQuestionTopic(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose Question Difficulty: ");
+        System.out.println("Choose Topic: ");
         System.out.println("1) LaborLaw");
         System.out.println("2) GenerativeAi");
         System.out.println("3) Cybersecurity");
@@ -227,7 +227,28 @@ public class Menu {
                     break;
                 case 4:
                     // Create Quiz
-                    // Implement this based on your requirements
+                    enums.Topic topic = chooseQuestionTopic();
+                    ArrayList<Question> questionByTopic = questionBank.getQuestionByTopic(topic);
+                    ArrayList<Question> selectedQuestions = new ArrayList<>();
+                    for (Question question : questionByTopic) {
+                        System.out.println(question);
+                    }
+                    while (true){
+                        System.out.println("Enter the Id of the question you want to have in your quiz or enter -1 to finish");
+                        Scanner keyboard = new Scanner(System.in);
+                        String id = keyboard.nextLine();
+                        if (id.equals("-1")){
+                            break;
+                        } else{
+                            selectedQuestions.add(questionBank.getQuestionById(id));
+                        }
+
+                    }
+                    //>>implement method to create the quiz sending this ArrayList <<<
+                    for (Question q: selectedQuestions) {
+                        System.out.println(q);
+
+                    }
                     break;
                 case 5:
                     // Show all Quizzes
