@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Scanner;
+import enums.Difficulty;
 
 public class Menu {
 
@@ -112,6 +114,65 @@ public class Menu {
         }
     }
 
+    public static int getQuestionTypeChoice() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Create Question Menu:");
+        System.out.println("1) MCQ Question");
+        System.out.println("2) Fill in the Blank Question");
+        System.out.println("3) True/False Question");
+        System.out.println("4) Exit");
+        return scanner.nextInt();
+    }
+
+    public static String getQuestionBody() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Question Body: ");
+        return scanner.nextLine();
+    }
+
+    public static String getQuestionAnswer() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Question Answer: ");
+        return scanner.nextLine();
+    }
+
+    public static Difficulty getQuestionDifficulty() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose Question Difficulty: ");
+        System.out.println("1) Easy");
+        System.out.println("2) Medium");
+        System.out.println("3) Hard");
+        System.out.print("Enter your choice: ");
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                return Difficulty.EASY;
+            case 2:
+                return Difficulty.MEDIUM;
+            case 3:
+                return Difficulty.HARD;
+            default:
+                return Difficulty.EASY;
+        }
+    }
+
+    public static ArrayList<String> getMCQOptions() {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<String> options = new ArrayList<>();
+
+        System.out.println("Enter MCQ Options (Enter 'done' when finished): ");
+        while (true) {
+            String option = scanner.nextLine();
+            if (option.equals("done")) {
+                break;
+            }
+            options.add(option);
+        }
+
+        return options;
+    }
+
     protected static void showMenu(Company company, QuizMaster quizMaster) {
         while (true) {
             Menu.showSubMenu(quizMaster);
@@ -119,6 +180,7 @@ public class Menu {
             switch (choice) {
                 case 1:
                     // Create Question
+                    Menu.showCreateQuestionSubMenu(company);
                     // Implement this based on your requirements
                     break;
                 case 2:
@@ -148,6 +210,56 @@ public class Menu {
                     System.out.println("Invalid Choice");
             }
         }
+    }
+    private static void showCreateQuestionSubMenu(Company company) {
+        while (true) {
+
+
+            int choice = Menu.getQuestionTypeChoice();
+            switch (choice) {
+                case 1:
+                    createMCQQuestion(company);
+                    break;
+                case 2:
+                    createFillInTheBlankQuestion(company);
+                    break;
+                case 3:
+                    createTrueFalseQuestion(company);
+                    break;
+                case 4:
+                    System.out.println("Exiting Create Question Menu");
+                    return;
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+    }
+    private static void createMCQQuestion(Company company) {
+        String body = Menu.getQuestionBody();
+        String answer = Menu.getQuestionAnswer();
+        Difficulty difficulty = Menu.getQuestionDifficulty();
+        ArrayList<String> options = Menu.getMCQOptions();
+
+        // Create an MCQ Question object and do something with it
+        MCQQuestion mcqQuestion = new MCQQuestion(body, answer, difficulty, options.toArray(new String[0]));
+    }
+
+    private static void createFillInTheBlankQuestion(Company company) {
+        String body = Menu.getQuestionBody();
+        String answer = Menu.getQuestionAnswer();
+        Difficulty difficulty = Menu.getQuestionDifficulty();
+
+        // Create a Fill in the Blank Question object and do something with it
+        FillInBlank fillInBlank = new FillInBlank(body, answer, difficulty);
+    }
+
+    private static void createTrueFalseQuestion(Company company) {
+        String body = Menu.getQuestionBody();
+        String answer = Menu.getQuestionAnswer();
+        Difficulty difficulty = Menu.getQuestionDifficulty();
+
+        // Create a True/False Question object and do something with it
+        TrueFalse trueFalse = new TrueFalse(body, answer, difficulty);
     }
 
     protected static void showMenu(Company company, RegularEmployee regularEmployee) {
