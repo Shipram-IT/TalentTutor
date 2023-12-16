@@ -36,7 +36,7 @@ public class Question {
         this.difficulty = difficulty;
         this.type = type;
     }
-    public static class QuestionPopulator {
+
 
         public static ArrayList<Question> populateQuestions(ArrayList<HashMap<String, String>> data) {
             ArrayList<Question> questions = new ArrayList<>();
@@ -65,7 +65,7 @@ public class Question {
 
             return questions;
         }
-    }
+
 }
 class MCQQuestion extends Question {
     protected String[] options = new String[4];
