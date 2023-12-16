@@ -1,3 +1,5 @@
+import enums.Topic;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -51,11 +53,27 @@ public class QuizBank {
         }
     }
 
+    public void showFilteredQuizzes(Topic topic) {
+        for (Quiz q : quizzes) {
+            if (q.getTopic() == topic) {
+                System.out.println(q);
+            }
+        }
+    }
+
+    public Quiz getQuizById(String quizId) {
+        for (Quiz quiz : quizzes) {
+            if (quiz.getId().equals(quizId)) {
+                return quiz;
+            }
+        }
+        return null; // Quiz with the given ID not found
+    }
+
     public void addNewQuiz(Quiz quiz){
         quizzes.add(quiz);
         updateCSV(quiz);
     }
-
 
     private void updateCSV(Quiz quiz) {
             // Create the CSV file path based on quiz ID, topic, and difficulty
