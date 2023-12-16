@@ -27,7 +27,7 @@ public class Main {
                 }
                 else if (employee instanceof RegularEmployee) {
                     RegularEmployee regularEmployee = (RegularEmployee) employee;
-                    Menu.showMenu(company, regularEmployee);
+                    Menu.showMenu(company, regularEmployee, quizBank);
                 }
                 else{
                     System.out.println("Error");
