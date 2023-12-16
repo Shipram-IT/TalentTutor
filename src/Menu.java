@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import enums.Difficulty;
+import enums.Topic;
 
 public class Menu {
 
@@ -114,29 +115,57 @@ public class Menu {
         }
     }
 
-    public static int getQuestionTypeChoice() {
+    public static int chooseQuestionTypeChoice() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Create Question Menu:");
         System.out.println("1) MCQ Question");
         System.out.println("2) Fill in the Blank Question");
         System.out.println("3) True/False Question");
-        System.out.println("4) Exit");
         return scanner.nextInt();
     }
 
-    public static String getQuestionBody() {
+    public static String defineQuestionBody() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter Question Body: ");
         return scanner.nextLine();
     }
 
-    public static String getQuestionAnswer() {
+    public static String defineQuestionAnswer() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter Question Answer: ");
         return scanner.nextLine();
     }
 
-    public static Difficulty getQuestionDifficulty() {
+    public static enums.Topic chooseQuestionTopic(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose Question Difficulty: ");
+        System.out.println("1) LaborLaw");
+        System.out.println("2) GenerativeAi");
+        System.out.println("3) Cybersecurity");
+        System.out.println("4) Ethics");
+        System.out.println("5) Accounting");
+        System.out.println("6) CustomerOrientation");
+        System.out.print("Enter your choice or any other number to quit: ");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                return enums.Topic.LaborLaw;
+            case 2:
+                return enums.Topic.GenerativeAi;
+            case 3:
+                return enums.Topic.Cybersecurity;
+            case 4:
+                return enums.Topic.Ethics;
+            case 5:
+                return enums.Topic.Accounting;
+            case 6:
+                return enums.Topic.CustomerOrientation;
+            default:
+                return null;
+        }
+    }
+
+    public static enums.Difficulty setQuestionDifficulty() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose Question Difficulty: ");
         System.out.println("1) Easy");
@@ -147,17 +176,17 @@ public class Menu {
 
         switch (choice) {
             case 1:
-                return Difficulty.EASY;
+                return enums.Difficulty.EASY;
             case 2:
-                return Difficulty.MEDIUM;
+                return enums.Difficulty.MEDIUM;
             case 3:
-                return Difficulty.HARD;
+                return enums.Difficulty.HARD;
             default:
                 return Difficulty.EASY;
         }
     }
 
-    public static ArrayList<String> getMCQOptions() {
+    public static ArrayList<String> setMCQOptions() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<String> options = new ArrayList<>();
 
@@ -218,54 +247,34 @@ public class Menu {
     }
     private static void showCreateQuestionSubMenu(QuestionBank questionBank) {
         while (true) {
-            int choice = Menu.getQuestionTypeChoice();
+            enums.Topic topic = Menu.chooseQuestionTopic();
+            if (topic == null){
+                System.out.println("Exiting Create Question Menu");
+                return;
+            }
+            String body = Menu.defineQuestionBody();
+            enums.Difficulty difficulty = Menu.setQuestionDifficulty();
+            String answer;
+            int choice = Menu.chooseQuestionTypeChoice();
             switch (choice) {
                 case 1:
-                    questionBank.addQuestion(createMCQQuestion(questionBank));
+                    ArrayList<String> options = Menu.setMCQOptions();
+                    answer = Menu.defineQuestionAnswer();
+                    questionBank.addQuestion(new MCQQuestion(body, answer, difficulty, options.toArray(new String[0]), topic));
                     break;
                 case 2:
-                    questionBank.addQuestion(createFillInTheBlankQuestion(questionBank));
+                    answer = Menu.defineQuestionAnswer();
+                    questionBank.addQuestion(new FillInBlank(body, answer, difficulty, topic));
                     break;
                 case 3:
-                    questionBank.addQuestion(createTrueFalseQuestion(questionBank));
+                    answer = Menu.defineQuestionAnswer();
+                    questionBank.addQuestion(new TrueFalse(body, answer, difficulty, topic));
                     break;
-                case 4:
-                    System.out.println("Exiting Create Question Menu");
-                    return;
+
                 default:
                     System.out.println("Invalid Choice");
             }
         }
-    }
-    private static Question createMCQQuestion(QuestionBank questionBank) {
-        String body = Menu.getQuestionBody();
-        String answer = Menu.getQuestionAnswer();
-        enums.Difficulty difficulty = Menu.getQuestionDifficulty();
-        ArrayList<String> options = Menu.getMCQOptions();
-
-        // Create an MCQ Question object and do something with it
-        MCQQuestion mcqQuestion = new MCQQuestion(body, answer, difficulty, options.toArray(new String[0]));
-        return mcqQuestion;
-    }
-
-    private static Question createFillInTheBlankQuestion(QuestionBank questionBank) {
-        String body = Menu.getQuestionBody();
-        String answer = Menu.getQuestionAnswer();
-        enums.Difficulty difficulty = Menu.getQuestionDifficulty();
-
-        // Create a Fill in the Blank Question object and do something with it
-        FillInBlank fillInBlank = new FillInBlank(body, answer, difficulty);
-        return fillInBlank;
-    }
-
-    private static Question createTrueFalseQuestion(QuestionBank questionBank) {
-        String body = Menu.getQuestionBody();
-        String answer = Menu.getQuestionAnswer();
-        enums.Difficulty difficulty = Menu.getQuestionDifficulty();
-
-        // Create a True/False Question object and do something with it
-        TrueFalse trueFalse = new TrueFalse(body, answer, difficulty);
-        return trueFalse;
     }
 
     protected static void showMenu(Company company, RegularEmployee regularEmployee) {

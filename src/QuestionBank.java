@@ -1,5 +1,3 @@
-import enums.Difficulty;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -24,11 +22,12 @@ public class QuestionBank {
 
     private void populateQuestionsFromCSV() {
         if (csvFileExists()) {
-            String[] fields = {"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
+            String[] fields = {"id", "topic","body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
             CsvIO csvIO = new CsvIO();
             ArrayList<HashMap<String, String>> data = csvIO.readFromCSV("questionbank.csv", fields);
             for (HashMap<String, String> entry : data) {
                 String id = entry.get("id");
+                enums.Topic topic = enums.Topic.valueOf(entry.get("topic"));
                 String body = entry.get("body");
                 String answer = entry.get("answer");
                 enums.Difficulty difficulty = enums.Difficulty.valueOf(entry.get("difficulty"));
@@ -39,13 +38,13 @@ public class QuestionBank {
                 }
                 switch (type) {
                     case MCQ:
-                        questions.add(new MCQQuestion(id, body, answer, difficulty, options));
+                        questions.add(new MCQQuestion(id, body, answer, difficulty, options, topic));
                         break;
                     case FillInBlank:
-                        questions.add(new FillInBlank(id, body, answer, difficulty));
+                        questions.add(new FillInBlank(id, body, answer, difficulty, topic));
                         break;
                     case TrueFalse:
-                        questions.add(new TrueFalse(id, body, answer, difficulty));
+                        questions.add(new TrueFalse(id, body, answer, difficulty, topic));
                         break;
                     // Add more cases for other types if needed
                 }
@@ -100,11 +99,12 @@ public class QuestionBank {
     private void updateCSV() {
         // Rewrite the CSV file with the updated question list
         CsvIO csvIO = new CsvIO();
-        String[] titles = {"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
+        String[] titles = {"id", "topic","body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
         ArrayList<HashMap<String, String>> data = new ArrayList<>();
         for (Question question : questions) {
             LinkedHashMap<String, String> entry = new LinkedHashMap<>();
             entry.put("id", question.getId());
+            entry.put("topic", question.getTopic().name());
             entry.put("body", question.getBody());
             entry.put("answer", question.getAnswer());
             entry.put("difficulty", question.getDifficulty().name());
@@ -117,38 +117,13 @@ public class QuestionBank {
                 entry.put("option3", options[2]);
                 entry.put("option4", options[3]);
             } else {
-                entry.put("option1", " ");
-                entry.put("option2", " ");
-                entry.put("option3", " ");
-                entry.put("option4", " ");
+                entry.put("option1", "-");
+                entry.put("option2", "-");
+                entry.put("option3", "-");
+                entry.put("option4", "-");
             }
             data.add(entry);
         }
         csvIO.overwrite("questionbank.csv", titles, data);
-    }
-
-    public static void createMCQQuestion(Company company) {
-        String body = Menu.getQuestionBody();
-        String answer = Menu.getQuestionAnswer();
-        Difficulty difficulty = Menu.getQuestionDifficulty();
-        ArrayList<String> options = Menu.getMCQOptions();
-
-        // Create an MCQ Question object and do something with it
-        MCQQuestion mcqQuestion = new MCQQuestion(body, answer, difficulty, options.toArray(new String[0]));
-    }
-
-    public static void createFillInTheBlankQuestion(Company company) {
-        String body = Menu.getQuestionBody();
-        String answer = Menu.getQuestionAnswer();
-        Difficulty difficulty = Menu.getQuestionDifficulty();
-
-        // Create a Fill in the Blank Question object and do something with it
-        FillInBlank fillInBlank = new FillInBlank(body, answer, difficulty);
-    }
-
-    public static void createTrueFalseQuestion(Company company) {
-        String body = Menu.getQuestionBody();
-        String answer = Menu.getQuestionAnswer();
-        Difficulty difficulty = Menu.getQuestionDifficulty();
     }
 }

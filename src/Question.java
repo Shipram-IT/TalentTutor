@@ -1,5 +1,6 @@
 import enums.Difficulty;
 import enums.QuestionType;
+import enums.Topic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,19 +9,21 @@ public class Question {
     protected String id;
     protected String body;
     protected String answer;
+    protected enums.Topic topic;
     protected enums.Difficulty difficulty;
     protected enums.QuestionType type;
 
-    public Question(String body, String answer, Difficulty difficulty, QuestionType type) {
+    public Question(String body, String answer, Difficulty difficulty, QuestionType type, enums.Topic topic) {
         this.id = String.valueOf(nextId);
         nextId++;
         this.body = body;
         this.answer = answer;
         this.difficulty = difficulty;
         this.type = type;
+        this.topic = topic;
     }
 
-    public Question(String id, String body, String answer, Difficulty difficulty, QuestionType type) {
+    public Question(String id, String body, String answer, Difficulty difficulty, QuestionType type, enums.Topic topic ) {
         this.id = id;
         if (Integer.valueOf(id) >= nextId){
             nextId = Integer.valueOf(id) + 1;
@@ -29,6 +32,7 @@ public class Question {
         this.answer = answer;
         this.difficulty = difficulty;
         this.type = type;
+        this.topic = topic;
     }
 
     public String getId(){
@@ -51,9 +55,14 @@ public class Question {
         return type;
     }
 
+    public enums.Topic getTopic(){
+        return topic;
+    }
+
     @Override
     public String toString(){
         return "id: " + this.id +
+                "; topic: " + this.topic +
                 "; " + this.getClass().getName() +
                 "; difficulty: " + this.difficulty +
                 "; body: " + this.body;
@@ -62,13 +71,13 @@ public class Question {
 class MCQQuestion extends Question {
     protected String[] options = new String[4];
 
-    public MCQQuestion(String body, String answer, Difficulty difficulty, String[] options) {
-        super(body, answer, difficulty, QuestionType.MCQ);
+    public MCQQuestion(String body, String answer, enums.Difficulty difficulty, String[] options, enums.Topic topic ) {
+        super(body, answer, difficulty, QuestionType.MCQ, topic);
         this.options = options;
     }
 
-    public MCQQuestion(String id, String body, String answer, Difficulty difficulty, String[] options) {
-        super(id, body, answer, difficulty, QuestionType.MCQ);
+    public MCQQuestion(String id, String body, String answer, Difficulty difficulty, String[] options, enums.Topic topic ) {
+        super(id, body, answer, difficulty, QuestionType.MCQ, topic);
         this.options = options;
    }
 
@@ -77,20 +86,20 @@ class MCQQuestion extends Question {
     }
 }
 class FillInBlank extends Question{
-    public FillInBlank(String body, String answer, Difficulty difficulty) {
-        super(body, answer, difficulty, QuestionType.FillInBlank);
+    public FillInBlank(String body, String answer, Difficulty difficulty, enums.Topic topic) {
+        super(body, answer, difficulty, QuestionType.FillInBlank, topic);
     }
 
-    public FillInBlank(String id, String body, String answer, Difficulty difficulty) {
-        super(id, body, answer, difficulty, QuestionType.FillInBlank);
+    public FillInBlank(String id, String body, String answer, Difficulty difficulty, enums.Topic topic) {
+        super(id, body, answer, difficulty, QuestionType.FillInBlank, topic );
     }
 }
 class TrueFalse extends Question{
-    public TrueFalse(String body, String answer, Difficulty difficulty) {
-        super(body, answer, difficulty, QuestionType.TrueFalse);
+    public TrueFalse(String body, String answer, Difficulty difficulty, enums.Topic topic) {
+        super(body, answer, difficulty, QuestionType.TrueFalse, topic);
     }
 
-    public TrueFalse(String id, String body, String answer, Difficulty difficulty) {
-        super(id, body, answer, difficulty, QuestionType.TrueFalse);
+    public TrueFalse(String id, String body, String answer, Difficulty difficulty, enums.Topic topic ) {
+        super(id, body, answer, difficulty, QuestionType.TrueFalse, topic);
     }
 }
