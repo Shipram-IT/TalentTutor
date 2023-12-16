@@ -173,19 +173,21 @@ public class Menu {
         return options;
     }
 
-    protected static void showMenu(Company company, QuizMaster quizMaster) {
+    protected static void showMenu(QuizMaster quizMaster, QuestionBank questionBank) {
         while (true) {
             Menu.showSubMenu(quizMaster);
             int choice = Menu.getRoleChoice();
             switch (choice) {
                 case 1:
                     // Create Question
-                    Menu.showCreateQuestionSubMenu(company);
+                    Menu.showCreateQuestionSubMenu(questionBank);
+
                     // Implement this based on your requirements
                     break;
                 case 2:
                     // Show all Questions
-                    // Implement this based on your requirements
+                    questionBank.showQuestionList();
+
                     break;
                 case 3:
                     // Remove a Question
@@ -211,20 +213,18 @@ public class Menu {
             }
         }
     }
-    private static void showCreateQuestionSubMenu(Company company) {
+    private static void showCreateQuestionSubMenu(QuestionBank questionBank) {
         while (true) {
-
-
             int choice = Menu.getQuestionTypeChoice();
             switch (choice) {
                 case 1:
-                    createMCQQuestion(company);
+                    questionBank.addQuestion(createMCQQuestion(questionBank));
                     break;
                 case 2:
-                    createFillInTheBlankQuestion(company);
+                    questionBank.addQuestion(createFillInTheBlankQuestion(questionBank));
                     break;
                 case 3:
-                    createTrueFalseQuestion(company);
+                    questionBank.addQuestion(createTrueFalseQuestion(questionBank));
                     break;
                 case 4:
                     System.out.println("Exiting Create Question Menu");
@@ -234,32 +234,35 @@ public class Menu {
             }
         }
     }
-    private static void createMCQQuestion(Company company) {
+    private static Question createMCQQuestion(QuestionBank questionBank) {
         String body = Menu.getQuestionBody();
         String answer = Menu.getQuestionAnswer();
-        Difficulty difficulty = Menu.getQuestionDifficulty();
+        enums.Difficulty difficulty = Menu.getQuestionDifficulty();
         ArrayList<String> options = Menu.getMCQOptions();
 
         // Create an MCQ Question object and do something with it
         MCQQuestion mcqQuestion = new MCQQuestion(body, answer, difficulty, options.toArray(new String[0]));
+        return mcqQuestion;
     }
 
-    private static void createFillInTheBlankQuestion(Company company) {
+    private static Question createFillInTheBlankQuestion(QuestionBank questionBank) {
         String body = Menu.getQuestionBody();
         String answer = Menu.getQuestionAnswer();
-        Difficulty difficulty = Menu.getQuestionDifficulty();
+        enums.Difficulty difficulty = Menu.getQuestionDifficulty();
 
         // Create a Fill in the Blank Question object and do something with it
         FillInBlank fillInBlank = new FillInBlank(body, answer, difficulty);
+        return fillInBlank;
     }
 
-    private static void createTrueFalseQuestion(Company company) {
+    private static Question createTrueFalseQuestion(QuestionBank questionBank) {
         String body = Menu.getQuestionBody();
         String answer = Menu.getQuestionAnswer();
-        Difficulty difficulty = Menu.getQuestionDifficulty();
+        enums.Difficulty difficulty = Menu.getQuestionDifficulty();
 
         // Create a True/False Question object and do something with it
         TrueFalse trueFalse = new TrueFalse(body, answer, difficulty);
+        return trueFalse;
     }
 
     protected static void showMenu(Company company, RegularEmployee regularEmployee) {

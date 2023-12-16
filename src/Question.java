@@ -7,10 +7,10 @@ public class Question {
     protected String id;
     protected String body;
     protected String answer;
-    protected Difficulty difficulty;
-    protected QuestionType type;
-    protected String[] titles;
-    protected String[] values;
+    protected enums.Difficulty difficulty;
+    protected enums.QuestionType type;
+    //protected String[] titles;
+    //protected String[] values;
 
     public Question(String body, String answer, Difficulty difficulty, QuestionType type) {
         this.id = "0";
@@ -18,14 +18,14 @@ public class Question {
         this.answer = answer;
         this.difficulty = difficulty;
         this.type = type;
-        if (type != QuestionType.MCQ) {
-            //the file writer is called differently for MCQ
-            this.titles = new String[]{"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
-            this.values = new String[]{id, body, answer, difficulty.name(), type.name(), "", "", "", ""};
-            // Add data to CSV file
-            CsvIO csvIO = new CsvIO();
-            csvIO.writeToCSV("questionbank.csv", titles, values);
-        }
+//        if (type != QuestionType.MCQ) {
+//            //the file writer is called differently for MCQ
+//            this.titles = new String[]{"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
+//            this.values = new String[]{id, body, answer, difficulty.name(), type.name(), "", "", "", ""};
+//            // Add data to CSV file
+//            CsvIO csvIO = new CsvIO();
+//            csvIO.writeToCSV("questionbank.csv", titles, values);
+//        }
     }
 
     public Question(String id, String body, String answer, Difficulty difficulty, QuestionType type) {
@@ -36,34 +36,36 @@ public class Question {
         this.type = type;
     }
 
-
-        public static ArrayList<Question> populateQuestions(ArrayList<HashMap<String, String>> data) {
-            ArrayList<Question> questions = new ArrayList<>();
-
-            for (HashMap<String, String> entry : data) {
-                String id = entry.get("id");
-                String body = entry.get("body");
-                String answer = entry.get("answer");
-                Difficulty difficulty = Difficulty.valueOf(entry.get("difficulty"));
-                QuestionType type = QuestionType.valueOf(entry.get("type"));
-
-                switch (type) {
-                    case MCQ:
-                        String[] options = entry.get("options").split(";");
-                        questions.add(new MCQQuestion(id, body, answer, difficulty, options));
-                        break;
-                    case FillInBlank:
-                        questions.add(new FillInBlank(id, body, answer, difficulty));
-                        break;
-                    case TrueFalse:
-                        questions.add(new TrueFalse(id, body, answer, difficulty));
-                        break;
-                    // Add more cases for other types if needed
-                }
-            }
-
-            return questions;
-        }
+//
+//        public static ArrayList<Question> populateQuestions(ArrayList<HashMap<String, String>> data) {
+//            ArrayList<Question> questions = new ArrayList<>();
+//
+//            for (HashMap<String, String> entry : data) {
+//                String id = entry.get("id");
+//                String body = entry.get("body");
+//                String answer = entry.get("answer");
+//                Difficulty difficulty = Difficulty.valueOf(entry.get("difficulty"));
+//                QuestionType type = QuestionType.valueOf(entry.get("type"));
+//                String[] options = new String[4];
+//                for (int i = 1; i <= 4; i++) {
+//                    options[i - 1] = entry.get("option" + i);
+//                }
+//                switch (type) {
+//                    case MCQ:
+//                        questions.add(new MCQQuestion(id, body, answer, difficulty, options));
+//                        break;
+//                    case FillInBlank:
+//                        questions.add(new FillInBlank(id, body, answer, difficulty));
+//                        break;
+//                    case TrueFalse:
+//                        questions.add(new TrueFalse(id, body, answer, difficulty));
+//                        break;
+//                    // Add more cases for other types if needed
+//                }
+//            }
+//
+//            return questions;
+//        }
 
     public String getId(){
         return this.id;
@@ -77,11 +79,11 @@ public class Question {
         return answer;
     }
 
-    public Difficulty getDifficulty() {
+    public enums.Difficulty getDifficulty() {
         return difficulty;
     }
 
-    public QuestionType getType() {
+    public enums.QuestionType getType() {
         return type;
     }
 
@@ -92,19 +94,17 @@ class MCQQuestion extends Question {
     public MCQQuestion(String body, String answer, Difficulty difficulty, String[] options) {
         super(body, answer, difficulty, QuestionType.MCQ);
         this.options = options;
-        this.titles = new String[]{"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
-        this.values = new String[]{id, body, answer, difficulty.name(), QuestionType.MCQ.name(),options[0], options[1], options[2], options[3]};
-        CsvIO csvIO = new CsvIO();
-        csvIO.writeToCSV("questionbank.csv", titles, values);
+//        this.titles = new String[]{"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
+//        this.values = new String[]{id, body, answer, difficulty.name(), QuestionType.MCQ.name(),options[0], options[1], options[2], options[3]};
+//        CsvIO csvIO = new CsvIO();
+//        csvIO.writeToCSV("questionbank.csv", titles, values);
     }
 
     public MCQQuestion(String id, String body, String answer, Difficulty difficulty, String[] options) {
         super(id, body, answer, difficulty, QuestionType.MCQ);
         this.options = options;
-        this.titles = new String[]{"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
-        this.values = new String[]{id, body, answer, difficulty.name(), QuestionType.MCQ.name(), options[0], options[1], options[2], options[3]};
-        CsvIO csvIO = new CsvIO();
-        csvIO.writeToCSV("questionbank.csv", titles, values);
+//        this.titles = new String[]{"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
+//        this.values = new String[]{id, body, answer, difficulty.name(), QuestionType.MCQ.name(), options[0], options[1], options[2], options[3]};
     }
 
     public String[] getOptions() {

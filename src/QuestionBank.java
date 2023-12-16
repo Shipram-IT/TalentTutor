@@ -3,32 +3,50 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class QuestionBank {
-    private String name;
     private ArrayList<Question> questions;
 
     public QuestionBank(String name) {
-        this.name = name;
         this.questions = new ArrayList<>();
 
         if (!csvFileExists()) {
-            System.out.println("No question records found. Add questions to the bank.");
-            // You can add some default questions here if needed
+            System.out.println("No question records found. Add must questions to the bank.");
         }
         populateQuestionsFromCSV();
-//        showQuestionList();
     }
 
     private boolean csvFileExists() {
-        // Assuming your CSV file for questions is named "questions.csv"
-        return new java.io.File("questions.csv").exists();
+        return new java.io.File("questionbank.csv").exists();
     }
 
     private void populateQuestionsFromCSV() {
         if (csvFileExists()) {
             String[] fields = {"id", "body", "answer", "difficulty", "type", "option1", "option2", "option3", "option4"};
             CsvIO csvIO = new CsvIO();
-            ArrayList<HashMap<String, String>> data = csvIO.readFromCSV("questions.csv", fields);
-            questions = Question.populateQuestions(data);
+            ArrayList<HashMap<String, String>> data = csvIO.readFromCSV("questionbank.csv", fields);
+//            questions = Question.populateQuestions(data);
+            for (HashMap<String, String> entry : data) {
+                String id = entry.get("id");
+                String body = entry.get("body");
+                String answer = entry.get("answer");
+                enums.Difficulty difficulty = enums.Difficulty.valueOf(entry.get("difficulty"));
+                enums.QuestionType type = enums.QuestionType.valueOf(entry.get("type"));
+                String[] options = new String[4];
+                for (int i = 1; i <= 4; i++) {
+                    options[i - 1] = entry.get("option" + i);
+                }
+                switch (type) {
+                    case MCQ:
+                        questions.add(new MCQQuestion(id, body, answer, difficulty, options));
+                        break;
+                    case FillInBlank:
+                        questions.add(new FillInBlank(id, body, answer, difficulty));
+                        break;
+                    case TrueFalse:
+                        questions.add(new TrueFalse(id, body, answer, difficulty));
+                        break;
+                    // Add more cases for other types if needed
+                }
+            }
         }
     }
 
@@ -48,12 +66,15 @@ public class QuestionBank {
     }
 
     public void showQuestionList() {
-        populateQuestionsFromCSV();
-        System.out.println("Question Bank - " + name + ":");
-        for (Question question : questions) {
-            System.out.println(question);
+        if (questions == null || questions.isEmpty()){
+            System.out.println("Question bank is empty, try to add some questions.");
         }
-        System.out.println();
+        else {
+            System.out.println("Question Bank:");
+            for (Question question : questions) {
+                System.out.println(question);
+            }
+        }
     }
 
     public ArrayList<Question> getQuestions() {
@@ -98,6 +119,6 @@ public class QuestionBank {
 
             data.add(entry);
         }
-        csvIO.overwrite("questions.csv", titles, data);
+        csvIO.overwrite("questionbank.csv", titles, data);
     }
 }
