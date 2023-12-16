@@ -33,7 +33,7 @@ public class CsvIO {
         return data;
     }
 
-    public void writeToCSV(String filename, String[] columnTitleList, String[] columnValueList) {
+    public static void writeToCSV(String filename, String[] columnTitleList, String[] columnValueList) {
         try {
             File file = new File(filename);
             boolean isNewFile = !file.exists() || file.length() == 0;
@@ -82,7 +82,7 @@ public class CsvIO {
         }
     }
 
-    private String getLastInsertedValue(String filename, int columnIndex) {
+    private static String getLastInsertedValue(String filename, int columnIndex) {
         String lastValue = "";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
