@@ -186,6 +186,7 @@ public class Menu {
                 case 2:
                     // Show all Questions
                     // Implement this based on your requirements
+                    QuestionBank.showQuestionList();
                     break;
                 case 3:
                     // Remove a Question
@@ -218,13 +219,13 @@ public class Menu {
             int choice = Menu.getQuestionTypeChoice();
             switch (choice) {
                 case 1:
-                    createMCQQuestion(company);
+                    QuestionBank.createMCQQuestion(company);
                     break;
                 case 2:
-                    createFillInTheBlankQuestion(company);
+                    QuestionBank.createFillInTheBlankQuestion(company);
                     break;
                 case 3:
-                    createTrueFalseQuestion(company);
+                    QuestionBank.createTrueFalseQuestion(company);
                     break;
                 case 4:
                     System.out.println("Exiting Create Question Menu");
@@ -234,33 +235,7 @@ public class Menu {
             }
         }
     }
-    private static void createMCQQuestion(Company company) {
-        String body = Menu.getQuestionBody();
-        String answer = Menu.getQuestionAnswer();
-        Difficulty difficulty = Menu.getQuestionDifficulty();
-        ArrayList<String> options = Menu.getMCQOptions();
 
-        // Create an MCQ Question object and do something with it
-        MCQQuestion mcqQuestion = new MCQQuestion(body, answer, difficulty, options.toArray(new String[0]));
-    }
-
-    private static void createFillInTheBlankQuestion(Company company) {
-        String body = Menu.getQuestionBody();
-        String answer = Menu.getQuestionAnswer();
-        Difficulty difficulty = Menu.getQuestionDifficulty();
-
-        // Create a Fill in the Blank Question object and do something with it
-        FillInBlank fillInBlank = new FillInBlank(body, answer, difficulty);
-    }
-
-    private static void createTrueFalseQuestion(Company company) {
-        String body = Menu.getQuestionBody();
-        String answer = Menu.getQuestionAnswer();
-        Difficulty difficulty = Menu.getQuestionDifficulty();
-
-        // Create a True/False Question object and do something with it
-        TrueFalse trueFalse = new TrueFalse(body, answer, difficulty);
-    }
 
     protected static void showMenu(Company company, RegularEmployee regularEmployee) {
         while (true) {
